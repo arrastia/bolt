@@ -1,6 +1,22 @@
+import { useState } from 'react';
+
 import { Styles } from './DynamicIsland.styles';
 
+import { menu } from 'assets/icons';
+
 export const DynamicIsland = () => {
+  const [animationStatus, setAnimationStatus] = useState<'idle' | 'expanded'>('idle');
+  const [isContentVisible, setIsContentVisible] = useState(false);
+
+  const handleAnimationEnd = () => (animationStatus === 'idle' ? setIsContentVisible(false) : null);
+
+  const onExpand = () => {
+    setIsContentVisible(true);
+    setAnimationStatus('expanded');
+  };
+
+  const onCollapse = () => setAnimationStatus('idle');
+
   const renderSearch = () => (
     <svg
       aria-hidden="true"
@@ -38,7 +54,10 @@ export const DynamicIsland = () => {
   );
 
   return (
-    <Styles.Island>
+    <Styles.Island
+      onAnimationEnd={handleAnimationEnd}
+      onClick={() => (animationStatus === 'expanded' ? onCollapse() : onExpand())}
+      status={animationStatus}>
       <Styles.Content>
         <Styles.Button>
           <Styles.Search>{renderSearch()}</Styles.Search>
@@ -50,9 +69,9 @@ export const DynamicIsland = () => {
               paddingLeft: '2px',
               minWidth: 0
             }}>
-            <div style={{ display: 'flex', minWidth: '50px' }}>
-              <Styles.Text>Where to?</Styles.Text>
-            </div>
+            {/* <div style={{ display: 'flex', minWidth: '50px' }}> */}
+            <Styles.Text>Why Bolt?</Styles.Text>
+            {/* </div> */}
             <div
               style={{
                 display: 'flex',
@@ -63,16 +82,16 @@ export const DynamicIsland = () => {
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap'
               }}>
-              <Styles.Text2>@gmail.com</Styles.Text2>
-              <Styles.Text2>@protonmail.com</Styles.Text2>
-              <Styles.Text2>@icloud.com</Styles.Text2>
+              <Styles.Text2>Learn more about us!</Styles.Text2>
             </div>
           </div>
         </Styles.Button>
       </Styles.Content>
       <Styles.Flex>
         <Styles.ActionButtons>
-          <Styles.ActionButton style={{ margin: 0 }}>{renderSettings()}</Styles.ActionButton>
+          <Styles.ActionButton style={{ margin: 0 }}>
+            <img src={menu} alt="" style={{ height: 16, width: 16 }} />
+          </Styles.ActionButton>
           <Styles.ActionButton>{renderSettings()}</Styles.ActionButton>
         </Styles.ActionButtons>
       </Styles.Flex>

@@ -4,10 +4,10 @@ const Flex = styled('div')`
   display: flex;
 `;
 
-const Island = styled('div')`
+const Island = styled('div')<{ status: 'idle' | 'expanded' }>`
   align-items: stretch;
   background: white;
-  border-radius: 1000px;
+  /* border-radius: 1000px; */
   border: 0.5px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   color: black;
@@ -15,6 +15,24 @@ const Island = styled('div')`
   min-height: 56px;
   min-width: 285px;
   transform: translate3d(0, 0, 0);
+  transition: height 200ms ease-in-out, border-radius 1s ease-in-out;
+
+  ${({ status }) => {
+    switch (status) {
+      case 'idle':
+        return `
+        height: 56px;
+        border-radius: 1000px;
+        transition: height 200ms ease-in-out, border-radius 100ms ease-in-out;
+        `;
+      case 'expanded':
+        return `
+        height: 300px;
+        border-radius: 25px;
+        transition: height 200ms ease-in-out, border-radius 100ms ease-in-out;
+        `;
+    }
+  }}
 `;
 
 const Content = styled(Flex)`
@@ -62,6 +80,12 @@ const ActionButton = styled('div')`
   border: 1px solid #dddddd;
   border-radius: 25px;
   margin: 0 10px;
+  transition: transform 0.1s ease-in-out;
+
+  &:active {
+    transform: scale(0.9);
+    transition: transform 0.1s ease-in-out;
+  }
 `;
 
 const Text = styled('span')`
