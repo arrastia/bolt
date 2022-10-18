@@ -2,7 +2,35 @@ import { useState } from 'react';
 
 import { Styles } from './DynamicIsland.styles';
 
+import { car, coin, money } from 'assets/stickers';
 import { menu } from 'assets/icons';
+
+import { Carousel } from 'ui/components/Carousel';
+import { Sticker } from 'ui/components/Sticker';
+
+import type { CSSProperties } from 'react';
+
+const slides = [
+  {
+    id: 'money-slide',
+    sticker: <Sticker data={money} loop={true} />,
+    text: 'Earn money',
+    subtitle: 'Drive with Bolt and earn extra income.'
+  },
+  {
+    id: 'car-slide',
+    sticker: <Sticker data={car} loop={true} />,
+    text: 'Drive anytime',
+    subtitle: 'Work with your own schedule. No minimum hours and no boss.',
+    direction: 'row-reverse' as CSSProperties['flexDirection']
+  },
+  {
+    id: 'coin-slide',
+    sticker: <Sticker data={coin} loop={true} />,
+    text: 'No monthly fees',
+    subtitle: 'No risk, you only pay when you earn.'
+  }
+];
 
 export const DynamicIsland = () => {
   const [animationStatus, setAnimationStatus] = useState<'idle' | 'expanded'>('idle');
@@ -58,43 +86,49 @@ export const DynamicIsland = () => {
       onAnimationEnd={handleAnimationEnd}
       onClick={() => (animationStatus === 'expanded' ? onCollapse() : onExpand())}
       status={animationStatus}>
-      <Styles.Content>
-        <Styles.Button>
-          <Styles.Search>{renderSearch()}</Styles.Search>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: '100%',
-              paddingLeft: '2px',
-              minWidth: 0
-            }}>
-            {/* <div style={{ display: 'flex', minWidth: '50px' }}> */}
-            <Styles.Text>Why Bolt?</Styles.Text>
-            {/* </div> */}
+      <div
+        style={{
+          display: 'flex',
+          position: 'relative',
+          width: '100%',
+          alignItems: 'stretch',
+          height: '56px'
+        }}>
+        <Styles.Content>
+          <Styles.Button>
+            <Styles.Search>{renderSearch()}</Styles.Search>
             <div
               style={{
                 display: 'flex',
-                minWidth: '0',
-                gap: '5px',
-
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap'
+                flexDirection: 'column',
+                width: '100%',
+                paddingLeft: '2px',
+                minWidth: 0
               }}>
-              <Styles.Text2>Learn more about us!</Styles.Text2>
+              <Styles.Title>Why Bolt?</Styles.Title>
+              <Styles.Subtitle>Learn more about us!</Styles.Subtitle>
             </div>
-          </div>
-        </Styles.Button>
-      </Styles.Content>
-      <Styles.Flex>
+          </Styles.Button>
+        </Styles.Content>
         <Styles.ActionButtons>
           <Styles.ActionButton style={{ margin: 0 }}>
-            <img src={menu} alt="" style={{ height: 16, width: 16 }} />
+            <img alt="" src={menu} style={{ height: 16, width: 16 }} />
           </Styles.ActionButton>
           <Styles.ActionButton>{renderSettings()}</Styles.ActionButton>
         </Styles.ActionButtons>
-      </Styles.Flex>
+      </div>
+      {animationStatus === 'expanded' ? (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            padding: '16px',
+            position: 'relative'
+          }}>
+          <Carousel slides={slides} />
+        </div>
+      ) : null}
     </Styles.Island>
   );
 };
