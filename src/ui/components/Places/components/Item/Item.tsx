@@ -1,18 +1,20 @@
+import { useRecoilCallback, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { isSelectedState, latitudeState, longitudeState, selectedCityState } from 'ui/stores/MapStore/MapStore';
+
+type Coordinate = { latitude: number; longitude: number };
 
 type Props = {
   icon: string;
-  id: number;
-  isActive: boolean;
+  id: string;
+  latitude: number;
+  longitude: number;
   name: string;
-  onSelect: (id: number) => void;
 };
 
 const ItemStyles = styled('button')<{ isActive: boolean }>`
-  --go-h-jh-l: 8px;
-
   background-color: unset;
-  border-radius: var(--go-h-jh-l);
+  border-radius: 8px;
   border: unset;
   cursor: pointer;
   margin: 12px 0 0;
@@ -80,9 +82,23 @@ const ItemStyles = styled('button')<{ isActive: boolean }>`
   }
 `;
 
-export const Item = ({ icon, isActive, name, onSelect, id }: Props) => {
+export const Item = ({ icon, id, latitude, longitude, name }: Props) => {
+  const isSelected = useRecoilValue(isSelectedState(id));
+
+  const setLocation = useRecoilCallback(
+    ({ set }) =>
+      ({ id, latitude, longitude }: Coordinate & { id: string }) => {
+        set(latitudeState, latitude);
+        set(longitudeState, longitude);
+        set(selectedCityState, id);
+      },
+    []
+  );
+
+  const onSelect = () => setLocation({ id, latitude, longitude });
+
   return (
-    <ItemStyles isActive={isActive} onClick={() => onSelect(id)}>
+    <ItemStyles isActive={isSelected} onClick={onSelect}>
       <div className="item-container">
         <span className="item-span">
           <img alt={name} src={icon} />

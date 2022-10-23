@@ -1,12 +1,8 @@
 import { useState } from 'react';
-import { atom, useRecoilState } from 'recoil';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
+import { citiesState } from 'ui/stores/MapStore/MapStore';
 import { Item } from './components/Item/Item';
 import { Styles } from './Places.styles';
-
-const selectedCityState = atom({
-  key: 'selectedCityState',
-  default: 1
-});
 
 const data = [
   {
@@ -66,15 +62,20 @@ const data = [
 ];
 
 export const Places = () => {
-  const [selectedCity, setSelectedCity] = useState(1);
-
-  const handleItemClick = (id: number) => setSelectedCity(id);
+  const cities = useRecoilValue(citiesState);
 
   return (
     <Styles.Container>
       <Styles.Grid role="radiogroup">
-        {data.map(({ icon, id, name }) => (
-          <Item icon={icon} id={id} isActive={selectedCity === id} key={id} name={name} onSelect={handleItemClick} />
+        {cities.map(({ country, id, latitude, longitude, name }) => (
+          <Item
+            icon="https://a0.muscache.com/pictures/3fb523a0-b622-4368-8142-b5e03df7549b.jpg"
+            id={id}
+            key={id}
+            latitude={latitude}
+            longitude={longitude}
+            name={name}
+          />
         ))}
       </Styles.Grid>
     </Styles.Container>
