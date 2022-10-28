@@ -1,7 +1,6 @@
 import { forwardRef } from 'react';
-import { motion } from 'framer-motion';
 
-import styles from '../../BottomSheet.styles';
+import { Styles } from './SheetContainer.styles';
 
 import { MAX_HEIGHT } from '../../constants';
 
@@ -22,7 +21,7 @@ export const SheetContainer = forwardRef<any, SheetContainerProps>(({ children, 
   const height = maxSnapHeight !== null ? `min(${maxSnapHeight}px, ${MAX_HEIGHT})` : MAX_HEIGHT;
 
   return (
-    <motion.div
+    <Styles.Container
       {...rest}
       animate={{ y: initialY, transition: animationOptions }}
       className="react-modal-sheet-container"
@@ -31,13 +30,12 @@ export const SheetContainer = forwardRef<any, SheetContainerProps>(({ children, 
       onAnimationComplete={handleAnimationComplete}
       ref={mergeRefs([sheetRef, ref])}
       style={{
-        ...styles.container,
         ...style,
         ...(detent === 'full-height' && { height }),
         ...(detent === 'content-height' && { maxHeight: height }),
         y
       }}>
       {children}
-    </motion.div>
+    </Styles.Container>
   );
 });

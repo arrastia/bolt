@@ -1,7 +1,6 @@
 import { forwardRef } from 'react';
-import { motion } from 'framer-motion';
 
-import styles from '../../BottomSheet.styles';
+import { Styles } from './SheetContent.styles';
 
 import { useSheetContext } from '../../hooks/useSheetContext';
 
@@ -13,8 +12,8 @@ export const SheetContent = forwardRef<any, SheetDraggableProps>(({ children, st
   const _dragProps = disableDrag ? undefined : dragProps;
 
   return (
-    <motion.div {...rest} className="react-modal-sheet-content" ref={ref} style={{ ...styles.content, ...style }} {..._dragProps}>
+    <Styles.Content {...rest} className="react-modal-sheet-content" ref={ref} style={{ ...style }} {..._dragProps}>
       {children}
-    </motion.div>
+    </Styles.Content>
   );
 });

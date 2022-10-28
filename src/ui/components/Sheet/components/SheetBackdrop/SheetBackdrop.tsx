@@ -1,7 +1,6 @@
 import { forwardRef } from 'react';
-import { motion } from 'framer-motion';
 
-import styles from '../../BottomSheet.styles';
+import { Styles } from './SheetBackdrop.styles';
 
 import type { SheetBackdropProps } from '../../@types/Sheet.types';
 
@@ -11,14 +10,14 @@ export const SheetBackdrop = forwardRef<any, SheetBackdropProps>(({ style = {}, 
   const pointerEvents = isClickable(rest) ? 'auto' : 'none';
 
   return (
-    <motion.div
+    <Styles.Backdrop
       {...rest}
       animate={{ opacity: 1 }}
       className="react-modal-sheet-backdrop"
       exit={{ opacity: 0 }}
       initial={{ opacity: 0 }}
       ref={ref}
-      style={{ ...styles.backdrop, ...style, pointerEvents }}
+      style={{ ...style, pointerEvents }}
     />
   );
 });

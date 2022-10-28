@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
-import { motion, useTransform } from 'framer-motion';
+import { useTransform } from 'framer-motion';
 
-import styles from '../../BottomSheet.styles';
+import { Styles } from './SheetHeader.styles';
 
 import { useSheetContext } from '../../hooks/useSheetContext';
 
@@ -9,20 +9,21 @@ import type { SheetDraggableProps } from '../../@types/Sheet.types';
 
 export const SheetHeader = forwardRef<any, SheetDraggableProps>(({ children, style, disableDrag, ...rest }, ref) => {
   const { indicatorRotation, dragProps } = useSheetContext();
+
   const _dragProps = disableDrag ? undefined : dragProps;
 
-  const indicator1Transform = useTransform(indicatorRotation, r => `translateX(2px) rotate(${r}deg)`);
+  const indicator1Transform = useTransform(indicatorRotation, rotation => `translateX(2px) rotate(${rotation}deg)`);
 
-  const indicator2Transform = useTransform(indicatorRotation, r => `translateX(-2px) rotate(${-1 * r}deg)`);
+  const indicator2Transform = useTransform(indicatorRotation, rotation => `translateX(-2px) rotate(${-1 * rotation}deg)`);
 
   return (
-    <motion.div {...rest} ref={ref} style={{ ...styles.headerWrapper, ...style }} {..._dragProps}>
+    <Styles.HeaderWrapper {...rest} ref={ref} style={style} {..._dragProps}>
       {children || (
-        <div className="react-modal-sheet-header" style={styles.header}>
-          <motion.span className="react-modal-sheet-drag-indicator" style={{ ...styles.indicator, transform: indicator1Transform }} />
-          <motion.span className="react-modal-sheet-drag-indicator" style={{ ...styles.indicator, transform: indicator2Transform }} />
-        </div>
+        <Styles.Header className="react-modal-sheet-header">
+          <Styles.Indicator className="react-modal-sheet-drag-indicator" style={{ transform: indicator1Transform }} />
+          <Styles.Indicator className="react-modal-sheet-drag-indicator" style={{ transform: indicator2Transform }} />
+        </Styles.Header>
       )}
-    </motion.div>
+    </Styles.HeaderWrapper>
   );
 });
