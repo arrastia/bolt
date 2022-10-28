@@ -23,6 +23,7 @@ export type SheetProps = {
   springConfig?: Parameters<typeof useSpring>[1];
   disableDrag?: boolean;
   prefersReducedMotion?: boolean;
+  header?: ReactNode;
 } & SheetEvents &
   HTMLAttributes<HTMLDivElement>;
 

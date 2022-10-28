@@ -14,7 +14,6 @@ export const useModalEffect = (isOpen: boolean, rootId?: string) => {
     }
   }, [isOpen, prevOpen]); // eslint-disable-line
 
-  // Make sure to cleanup modal styles on unmount
   useEffect(() => {
     return () => {
       if (rootId && isOpen) cleanupRootStyles(rootId);

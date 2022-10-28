@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { motion, useTransform } from 'framer-motion';
 
-import styles from '../../Sheet.styles';
+import styles from '../../BottomSheet.styles';
 
 import { useSheetContext } from '../../hooks/useSheetContext';
 

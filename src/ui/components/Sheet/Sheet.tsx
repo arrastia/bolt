@@ -1,53 +1,59 @@
-/* eslint-disable react/no-array-index-key */
-import { Children, cloneElement, forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-import { animate, AnimatePresence, AnimationOptions, PanInfo, useMotionValue, useReducedMotion } from 'framer-motion';
+import { animate, AnimatePresence, useMotionValue, useReducedMotion } from 'framer-motion';
 
-import styles from './Sheet.styles';
+import { Styles } from './Sheet.styles';
 
-import { useBlockScroll } from 'ui/hooks/useBlockScroll/useBlockScroll';
-import { useEvent } from './hooks/useEvent';
-import { useIsomorphicLayoutEffect } from './hooks/useIsomorphicLayoutEffect';
+import { SheetContainer } from './components/SheetContainer';
+import { SheetContent } from './components/SheetContent';
+import { SheetHeader } from './components/SheetHeader';
+
+import { useBlockScroll } from 'ui/hooks/useBlockScroll';
+import { useDrag } from './hooks/useDrag';
 import { useModalEffect } from './hooks/useModalEffect';
 import { useWindowHeight } from './hooks/useWindowHeight';
 
-import { DEFAULT_SPRING_CONFIG, DRAG_CLOSE_THRESHOLD, DRAG_VELOCITY_THRESHOLD, IS_SSR } from './constants';
-
 import { SheetContext } from './context/SheetContext';
 
-import { getClosest, inDescendingOrder, validateSnapTo } from './utils';
+import { DEFAULT_SPRING_CONFIG } from './constants';
 
+import { inDescendingOrder, validateSnapTo } from './utils';
+
+import type { AnimationOptions } from 'framer-motion';
+import type { Ref } from 'react';
 import type { SheetContextType, SheetProps } from './@types/Sheet.types';
 
-export const Sheet = forwardRef<any, SheetProps>(
+const sheetsPortal = document.getElementById('bottom-sheet') as HTMLElement;
+const detent = 'full-height';
+const prefersReducedMotion = false;
+
+export const Sheet = forwardRef(
   (
     {
       children,
-      detent = 'full-height',
-      disableDrag = false,
       initialSnap = 0,
       isOpen,
-      mountPoint,
       onClose,
       onCloseEnd,
       onCloseStart,
       onOpenEnd,
       onOpenStart,
       onSnap,
-      prefersReducedMotion = false,
       rootId,
       snapPoints,
       springConfig = DEFAULT_SPRING_CONFIG,
-      style,
+      header,
       ...rest
-    },
-    ref
+    }: SheetProps,
+    ref: Ref<any>
   ) => {
     const sheetRef = useRef<any>(null);
+
     const indicatorRotation = useMotionValue(0);
     const windowHeight = useWindowHeight();
     const shouldReduceMotion = useReducedMotion();
+
     const reduceMotion = Boolean(prefersReducedMotion || shouldReduceMotion);
     const animationOptions: AnimationOptions<number> = reduceMotion ? { type: 'tween', duration: 0.01 } : { type: 'spring', ...springConfig };
 
@@ -55,9 +61,11 @@ export const Sheet = forwardRef<any, SheetProps>(
 
     const callbacks = useRef({ onCloseEnd, onCloseStart, onOpenEnd, onOpenStart });
 
-    useIsomorphicLayoutEffect(() => {
+    useLayoutEffect(() => {
       callbacks.current = { onCloseEnd, onCloseStart, onOpenEnd, onOpenStart };
-    });
+    }, [onCloseEnd, onCloseStart, onOpenEnd, onOpenStart]);
+
+    const { onDrag, onDragEnd } = useDrag({ animationOptions, indicatorRotation, onClose, onSnap, sheetRef, snapPoints, y });
 
     if (snapPoints) {
       // Convert negative / percentage snap points to absolute values
@@ -70,57 +78,10 @@ export const Sheet = forwardRef<any, SheetProps>(
       console.assert(inDescendingOrder(snapPoints) || windowHeight === 0, `Snap points need to be in descending order got: [${snapPoints}]`);
     }
 
-    const onDrag = useEvent((_, { delta }: PanInfo) => {
-      const velocity = y.getVelocity();
-
-      if (velocity > 0) indicatorRotation.set(10);
-      if (velocity < 0) indicatorRotation.set(-10);
-
-      y.set(Math.max(y.get() + delta.y, 0));
-    });
-
-    const onDragEnd = useEvent((_, { velocity }: PanInfo) => {
-      if (velocity.y > DRAG_VELOCITY_THRESHOLD) {
-        onClose();
-      } else {
-        const sheetEl = sheetRef.current as HTMLDivElement;
-        const sheetHeight = sheetEl.getBoundingClientRect().height;
-        const currentY = y.get();
-
-        let snapTo = 0;
-
-        if (snapPoints) {
-          const snapToValues = snapPoints.map(p => sheetHeight - p).filter(p => p >= 0);
-
-          if (detent === 'content-height' && !snapToValues.includes(0)) {
-            snapToValues.unshift(0);
-          }
-
-          snapTo = getClosest(snapToValues, currentY);
-        } else if (currentY / sheetHeight > DRAG_CLOSE_THRESHOLD) {
-          snapTo = sheetHeight;
-        }
-
-        snapTo = validateSnapTo({ snapTo, sheetHeight });
-
-        animate(y, snapTo, animationOptions);
-
-        if (snapPoints && onSnap) {
-          const snapValue = Math.abs(Math.round(snapPoints[0] - snapTo));
-          const snapIndex = snapPoints.indexOf(getClosest(snapPoints, snapValue));
-          onSnap(snapIndex);
-        }
-
-        if (snapTo >= sheetHeight) onClose();
-      }
-
-      indicatorRotation.set(0);
-    });
-
     useEffect(() => {
       if (!snapPoints || !onSnap) return;
-      const snapIndex = isOpen ? initialSnap : snapPoints.length - 1;
-      onSnap(snapIndex);
+
+      onSnap(isOpen ? initialSnap : snapPoints.length - 1);
     }, [isOpen]); // eslint-disable-line
 
     useImperativeHandle(ref, () => ({
@@ -131,12 +92,10 @@ export const Sheet = forwardRef<any, SheetProps>(
         if (snapPoints && snapPoints[snapIndex] !== undefined && sheetEl !== null) {
           const sheetHeight = sheetEl.getBoundingClientRect().height;
           const snapPoint = snapPoints[snapIndex];
-          const snapTo = validateSnapTo({
-            snapTo: sheetHeight - snapPoint,
-            sheetHeight
-          });
+          const snapTo = validateSnapTo({ snapTo: sheetHeight - snapPoint, sheetHeight });
 
           animate(y, snapTo, animationOptions);
+
           if (onSnap) onSnap(snapIndex);
           if (snapTo >= sheetHeight) onClose();
         }
@@ -147,18 +106,10 @@ export const Sheet = forwardRef<any, SheetProps>(
 
     useBlockScroll(!isOpen);
 
-    const dragProps = useMemo(() => {
-      const dragProps: SheetContextType['dragProps'] = {
-        drag: 'y',
-        dragElastic: 0,
-        dragConstraints: { top: 0, bottom: 0 },
-        dragMomentum: false,
-        onDrag,
-        onDragEnd
-      };
-
-      return disableDrag ? undefined : dragProps;
-    }, [disableDrag]); // eslint-disable-line
+    const dragProps: SheetContextType['dragProps'] = useMemo(
+      () => ({ drag: 'y', dragConstraints: { top: 0, bottom: 0 }, dragElastic: 0, dragMomentum: false, onDrag, onDragEnd }),
+      [] // eslint-disable-line
+    );
 
     const context: SheetContextType = {
       animationOptions,
@@ -175,18 +126,21 @@ export const Sheet = forwardRef<any, SheetProps>(
       y
     };
 
-    const sheet = (
+    const renderContent = () => (
+      <SheetContainer>
+        <SheetHeader>{header}</SheetHeader>
+        <SheetContent>{children}</SheetContent>
+      </SheetContainer>
+    );
+
+    const renderSheet = () => (
       <SheetContext.Provider value={context}>
-        <div {...rest} ref={ref} style={{ ...styles.wrapper, ...style }}>
-          <AnimatePresence>
-            {isOpen ? Children.map(children, (child: any, index) => cloneElement(child, { key: `sheet-child-${index}` })) : null}
-          </AnimatePresence>
-        </div>
+        <Styles.Wrapper {...rest} ref={ref}>
+          <AnimatePresence>{isOpen ? renderContent() : null}</AnimatePresence>
+        </Styles.Wrapper>
       </SheetContext.Provider>
     );
 
-    if (IS_SSR) return sheet;
-
-    return createPortal(sheet, mountPoint ?? document.body);
+    return createPortal(renderSheet(), document.body);
   }
 );
