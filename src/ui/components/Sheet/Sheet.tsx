@@ -5,6 +5,7 @@ import { animate, AnimatePresence, useMotionValue, useReducedMotion } from 'fram
 
 import { Styles } from './Sheet.styles';
 
+import { SheetBackdrop } from './components/SheetBackdrop';
 import { SheetContainer } from './components/SheetContainer';
 import { SheetContent } from './components/SheetContent';
 import { SheetHeader } from './components/SheetHeader';
@@ -48,7 +49,7 @@ export const Sheet = forwardRef(
     }: SheetProps,
     ref: Ref<any>
   ) => {
-    const sheetRef = useRef<any>(null);
+    const sheetRef = useRef<HTMLDivElement>(null);
 
     const indicatorRotation = useMotionValue(0);
     const windowHeight = useWindowHeight();
@@ -87,7 +88,7 @@ export const Sheet = forwardRef(
     useImperativeHandle(ref, () => ({
       y,
       snapTo: (snapIndex: number) => {
-        const sheetEl = sheetRef.current as HTMLDivElement | null;
+        const sheetEl = sheetRef.current;
 
         if (snapPoints && snapPoints[snapIndex] !== undefined && sheetEl !== null) {
           const sheetHeight = sheetEl.getBoundingClientRect().height;
@@ -129,7 +130,7 @@ export const Sheet = forwardRef(
     const renderContent = () => (
       <SheetContainer>
         <SheetHeader>{header}</SheetHeader>
-        <SheetContent>{children}</SheetContent>
+        <SheetContent isDragDisabled={true}>{children}</SheetContent>
       </SheetContainer>
     );
 
@@ -137,6 +138,7 @@ export const Sheet = forwardRef(
       <SheetContext.Provider value={context}>
         <Styles.Wrapper {...rest} ref={ref}>
           <AnimatePresence>{isOpen ? renderContent() : null}</AnimatePresence>
+          {isOpen ? <SheetBackdrop /> : null}
         </Styles.Wrapper>
       </SheetContext.Provider>
     );
