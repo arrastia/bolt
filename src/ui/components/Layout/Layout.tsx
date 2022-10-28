@@ -6,7 +6,7 @@ import { Styles } from './Layout.styles';
 
 export const Layout = () => {
   return (
-    <Styles.Layout>
+    <Styles.Layout id="layout-id">
       <Header />
       <Places />
       <Outlet />
