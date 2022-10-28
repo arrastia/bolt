@@ -5,7 +5,7 @@ const Header = styled('div')`
   cursor: ns-resize;
   flex-shrink: 0;
   padding: 1rem;
-  /* padding-top: 0; */
+  padding-top: 0;
   text-align: center;
 `;
 

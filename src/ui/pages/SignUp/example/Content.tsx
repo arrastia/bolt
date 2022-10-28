@@ -1,14 +1,14 @@
 import { useRef } from 'react';
 import styled from 'styled-components';
 
-import { Sheet, SheetContainer, SheetContent, SheetHeader } from 'ui/components/Sheet';
-
 import { Styles } from './Example.styles';
 
-import type { SheetRef } from 'ui/components/Sheet';
+import { AgreementCheck } from 'ui/components/AgreementCheck';
 import { Button } from 'ui/components/Button';
 import { Input } from 'ui/components/Input';
-import { AgreementCheck } from 'ui/components/AgreementCheck';
+import { Sheet } from 'ui/components/Sheet';
+
+import type { SheetRef } from 'ui/components/Sheet';
 
 export const ContentHeight = () => {
   const ref = useRef<SheetRef>();
@@ -17,9 +17,11 @@ export const ContentHeight = () => {
 
   const close = () => snapTo(1);
 
+  const open = () => snapTo(0);
+
   return (
     <Sheet
-      header={<Styles.Header onClick={() => snapTo(0)}>Become a Bolt driver.</Styles.Header>}
+      header={<Styles.Header onClick={open}>Become a Bolt driver.</Styles.Header>}
       initialSnap={1}
       isOpen={true}
       onClose={close}
