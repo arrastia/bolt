@@ -1,17 +1,13 @@
-import { forwardRef } from 'react';
-
 import { Styles } from './SheetContainer.styles';
 
 import { MAX_HEIGHT } from '../../constants';
 
-import { useSheetContext } from '../../hooks/useSheetContext';
 import { useEventCallbacks } from '../../hooks/useEventCallbacks';
-
-import { mergeRefs } from 'ui/utils/CommonUtils';
+import { useSheetContext } from '../../hooks/useSheetContext';
 
 import type { SheetContainerProps } from '../../@types/Sheet.types';
 
-export const SheetContainer = forwardRef<any, SheetContainerProps>(({ children, style = {}, ...rest }, ref) => {
+export const SheetContainer = ({ children, style, ...rest }: SheetContainerProps) => {
   const { y, isOpen, callbacks, snapPoints, initialSnap = 0, sheetRef, windowHeight, detent, animationOptions, reduceMotion } = useSheetContext();
 
   const { handleAnimationComplete } = useEventCallbacks(isOpen, callbacks);
@@ -19,6 +15,19 @@ export const SheetContainer = forwardRef<any, SheetContainerProps>(({ children, 
   const maxSnapHeight = snapPoints ? snapPoints[0] : null;
 
   const height = maxSnapHeight !== null ? `min(${maxSnapHeight}px, ${MAX_HEIGHT})` : MAX_HEIGHT;
+
+  const renderStyles = () => {
+    switch (detent) {
+      case 'content-height':
+        return { maxHeight: height };
+
+      case 'full-height':
+        return { height };
+
+      default:
+        throw new Error(`Invalid detent value: ${detent}`);
+    }
+  };
 
   return (
     <Styles.Container
@@ -28,14 +37,9 @@ export const SheetContainer = forwardRef<any, SheetContainerProps>(({ children, 
       exit={{ y: windowHeight, transition: animationOptions }}
       initial={reduceMotion ? false : { y: windowHeight }}
       onAnimationComplete={handleAnimationComplete}
-      ref={mergeRefs([sheetRef, ref])}
-      style={{
-        ...style,
-        ...(detent === 'full-height' && { height }),
-        ...(detent === 'content-height' && { maxHeight: height }),
-        y
-      }}>
+      ref={sheetRef}
+      style={{ ...style, ...renderStyles(), y }}>
       {children}
     </Styles.Container>
   );
-});
+};

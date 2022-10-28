@@ -21,7 +21,7 @@ export type SheetProps = {
   detent?: SheetDetent;
   initialSnap?: number; // index of snap points array
   springConfig?: Parameters<typeof useSpring>[1];
-  disableDrag?: boolean;
+  isDragDisabled?: boolean;
   prefersReducedMotion?: boolean;
   header?: ReactNode;
 } & SheetEvents &
@@ -36,7 +36,7 @@ export type SheetDraggableProps = Omit<
   'drag' | 'dragElastic' | 'dragConstraints' | 'dragMomentum' | 'onDrag' | 'onDragStart' | 'onDragEnd'
 > & {
   children?: ReactNode;
-  disableDrag?: boolean;
+  isDragDisabled?: boolean;
 };
 
 export type SheetBackdropProps = Omit<MotionProps, 'initial' | 'animate' | 'exit'>;
