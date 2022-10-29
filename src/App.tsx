@@ -8,9 +8,11 @@ import { Map } from 'ui/components/Map';
 import { NotFound } from 'ui/pages/NotFound';
 import { SignUp } from 'ui/pages/SignUp';
 
+import { light } from 'ui/styles/themes';
+
 export function App() {
   return (
-    <ThemeProvider theme={{}}>
+    <ThemeProvider theme={light}>
       <GlobalStyles />
       <Map />
       <BrowserRouter>
