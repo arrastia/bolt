@@ -24,6 +24,7 @@ import { inDescendingOrder, validateSnapTo } from './utils';
 import type { AnimationOptions } from 'framer-motion';
 import type { Ref } from 'react';
 import type { SheetContextType, SheetProps } from './@types/Sheet.types';
+import { useBreakpoints } from 'ui/hooks/useBreakpoints';
 
 const sheetsPortal = document.getElementById('bottom-sheet') as HTMLElement;
 const detent = 'full-height';
@@ -33,6 +34,7 @@ export const Sheet = forwardRef(
   (
     {
       children,
+      header,
       initialSnap = 0,
       isOpen,
       onClose,
@@ -44,7 +46,6 @@ export const Sheet = forwardRef(
       rootId,
       snapPoints,
       springConfig = DEFAULT_SPRING_CONFIG,
-      header,
       ...rest
     }: SheetProps,
     ref: Ref<any>
@@ -52,8 +53,10 @@ export const Sheet = forwardRef(
     const sheetRef = useRef<HTMLDivElement>(null);
 
     const indicatorRotation = useMotionValue(0);
-    const windowHeight = useWindowHeight();
     const shouldReduceMotion = useReducedMotion();
+    const windowHeight = useWindowHeight();
+
+    const { breakpoint } = useBreakpoints();
 
     const reduceMotion = Boolean(prefersReducedMotion || shouldReduceMotion);
     const animationOptions: AnimationOptions<number> = reduceMotion ? { type: 'tween', duration: 0.01 } : { type: 'spring', ...springConfig };
@@ -85,23 +88,7 @@ export const Sheet = forwardRef(
       onSnap(isOpen ? initialSnap : snapPoints.length - 1);
     }, [isOpen]); // eslint-disable-line
 
-    useImperativeHandle(ref, () => ({
-      y,
-      snapTo: (snapIndex: number) => {
-        const sheetEl = sheetRef.current;
-
-        if (snapPoints && snapPoints[snapIndex] !== undefined && sheetEl !== null) {
-          const sheetHeight = sheetEl.getBoundingClientRect().height;
-          const snapPoint = snapPoints[snapIndex];
-          const snapTo = validateSnapTo({ snapTo: sheetHeight - snapPoint, sheetHeight });
-
-          animate(y, snapTo, animationOptions);
-
-          if (onSnap) onSnap(snapIndex);
-          if (snapTo >= sheetHeight) onClose();
-        }
-      }
-    }));
+    useImperativeHandle(ref, () => ({ snapTo, y }));
 
     useModalEffect(isOpen, rootId);
 
@@ -111,6 +98,21 @@ export const Sheet = forwardRef(
       () => ({ drag: 'y', dragConstraints: { top: 0, bottom: 0 }, dragElastic: 0, dragMomentum: false, onDrag, onDragEnd }),
       [] // eslint-disable-line
     );
+
+    const snapTo = (snapIndex: number) => {
+      const sheetEl = sheetRef.current;
+
+      if (snapPoints && snapPoints[snapIndex] !== undefined && sheetEl !== null) {
+        const sheetHeight = sheetEl.getBoundingClientRect().height;
+        const snapPoint = snapPoints[snapIndex];
+        const snapTo = validateSnapTo({ snapTo: sheetHeight - snapPoint, sheetHeight });
+
+        animate(y, snapTo, animationOptions);
+
+        if (onSnap) onSnap(snapIndex);
+        if (snapTo >= sheetHeight) onClose();
+      }
+    };
 
     const context: SheetContextType = {
       animationOptions,
@@ -138,11 +140,11 @@ export const Sheet = forwardRef(
       <SheetContext.Provider value={context}>
         <Styles.Wrapper {...rest} ref={ref}>
           <AnimatePresence>{isOpen ? renderContent() : null}</AnimatePresence>
-          {isOpen ? <SheetBackdrop /> : null}
+          {/* {isOpen ? <SheetBackdrop /> : null} */}
         </Styles.Wrapper>
       </SheetContext.Provider>
     );
 
-    return createPortal(renderSheet(), document.body);
+    return createPortal(breakpoint === 'xs' ? renderSheet() : null, document.body);
   }
 );
