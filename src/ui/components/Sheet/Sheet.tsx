@@ -11,6 +11,7 @@ import { SheetContent } from './components/SheetContent';
 import { SheetHeader } from './components/SheetHeader';
 
 import { useBlockScroll } from 'ui/hooks/useBlockScroll';
+import { useBreakpoints } from 'ui/hooks/useBreakpoints';
 import { useDrag } from './hooks/useDrag';
 import { useModalEffect } from './hooks/useModalEffect';
 import { useWindowHeight } from './hooks/useWindowHeight';
@@ -24,7 +25,6 @@ import { inDescendingOrder, validateSnapTo } from './utils';
 import type { AnimationOptions } from 'framer-motion';
 import type { Ref } from 'react';
 import type { SheetContextType, SheetProps } from './@types/Sheet.types';
-import { useBreakpoints } from 'ui/hooks/useBreakpoints';
 
 const sheetsPortal = document.getElementById('bottom-sheet') as HTMLElement;
 const detent = 'full-height';
