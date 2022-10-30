@@ -1,9 +1,23 @@
 import styled from 'styled-components';
 
+const ActionButtons = styled('div')`
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+`;
+
 const Header = styled('header')`
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
   padding: 14px 24px 0 24px;
+
+  @media (min-width: 768px) {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 24px 14px 24px;
+    width: 100%;
+  }
 `;
 
-export const Styles = { Header };
+export const Styles = { ActionButtons, Header };

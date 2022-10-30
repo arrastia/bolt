@@ -13,6 +13,20 @@ export const GlobalStyles = createGlobalStyle`
       margin: 0;
       -moz-osx-font-smoothing: grayscale;
       -webkit-font-smoothing: antialiased;
+
+      @media (min-width: 768px) {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        font-family: 'EuclidCircularBRegular', sans-serif;
+        height: 100vh;
+        justify-content: center;
+        margin: 0;
+        transition: background-color 300ms ease-in-out;
+        width: 100%;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased; 
+      }
     }
 
     code {

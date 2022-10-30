@@ -1,8 +1,11 @@
-import { useState } from 'react';
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
-import { citiesState } from 'ui/stores/MapStore/MapStore';
-import { Item } from './components/Item/Item';
+import { useRecoilValue } from 'recoil';
+
 import { Styles } from './Places.styles';
+
+import { Item } from './components/Item/Item';
+
+import { citiesState } from 'ui/stores/MapStore/MapStore';
+import { Location } from '../Locations/components/Location';
 
 const data = [
   {
@@ -68,7 +71,7 @@ export const Places = () => {
     <Styles.Container>
       <Styles.Grid role="radiogroup">
         {cities.map(({ country, id, latitude, longitude, name }) => (
-          <Item
+          <Location
             icon="https://a0.muscache.com/pictures/3fb523a0-b622-4368-8142-b5e03df7549b.jpg"
             id={id}
             key={id}
