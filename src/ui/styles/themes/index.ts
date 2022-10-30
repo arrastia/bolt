@@ -1,3 +1,5 @@
 import { breakpoints } from './breakpoints';
 
-export const light = { breakpoints };
+import { light } from './light.theme';
+
+export const theme = { breakpoints, ...light };

@@ -9,14 +9,14 @@ import { routes } from 'configuration/routes';
 import { Layout } from 'ui/components/Layout';
 import { Map } from 'ui/components/Map';
 
-import { light } from 'ui/styles/themes';
+import { theme } from 'ui/styles/themes';
 
 const NotFound = lazy(() => import('ui/pages/NotFound'));
 const SignUp = lazy(() => import('ui/pages/SignUp'));
 
 export function App() {
   return (
-    <ThemeProvider theme={light}>
+    <ThemeProvider theme={theme}>
       <GlobalStyles />
       <Map />
       <BrowserRouter>
