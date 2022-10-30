@@ -3,25 +3,38 @@ import styled from 'styled-components';
 import { shake } from 'ui/styles/animations/shake';
 
 const Input = styled('input')<{ isInvalid?: boolean }>`
+  font-size: 1rem;
+  opacity: 0.8;
+  outline: none;
+  border: none;
+  color: #545d68;
+  min-height: 38px;
+  flex: 1;
+
+  transition: border-color 100ms ease-in-out;
+  /* width: 100%; */
+
+  &:hover {
+    opacity: 0.9;
+  }
+`;
+
+const Container = styled('div')`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  position: relative;
+  gap: 1rem;
+
   background-color: transparent;
   border-color: #ced4da;
   border-radius: 3px;
   border-style: solid;
   border-width: 1px;
-  font-size: 1rem;
-  opacity: 0.8;
-  outline: none;
-  color: #545d68;
-  min-height: 38px;
   padding: 0.375rem 0.75rem;
-  transition: border-color 100ms ease-in-out;
-  width: 100%;
 
-  &:hover {
-    opacity: 0.9;
-  }
-
-  &:focus {
+  &:focus-within {
     border: 1px solid #34d186;
     box-shadow: 0 0 0 0.2rem rgb(52, 209, 134, 0.25);
     opacity: 1;
@@ -35,14 +48,6 @@ const Input = styled('input')<{ isInvalid?: boolean }>`
     color: #ff5c5c;
     transform: translate3d(0, 0, 0);
   }
-`;
-
-const Container = styled('div')`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  position: relative;
-  gap: 0.5rem;
 `;
 
 const Loading = styled('div')`
