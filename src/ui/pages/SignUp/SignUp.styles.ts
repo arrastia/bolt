@@ -30,4 +30,13 @@ const Section = styled('div')`
   /* min-height: 50vh; */
 `;
 
-export const Styles = { Section };
+const Header = styled('div')`
+  box-shadow: 0 1px 0 rgba(46, 59, 66, calc(1 * 0.125));
+  cursor: ns-resize;
+  flex-shrink: 0;
+  padding: 1rem;
+  padding-top: 0;
+  text-align: center;
+`;
+
+export const Styles = { Section, Header };
