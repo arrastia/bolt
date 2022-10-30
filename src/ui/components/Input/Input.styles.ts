@@ -39,7 +39,7 @@ const Input = styled('input')<{ isInvalid?: boolean }>`
 
 const Container = styled('div')`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
   position: relative;
   gap: 0.5rem;
@@ -51,4 +51,13 @@ const Loading = styled('div')`
   top: 50%;
 `;
 
-export const Styles = { Container, Loading, Input };
+const Icon = styled('div')`
+  background-color: transparent;
+  border-color: #ced4da;
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 1px;
+  padding: 0.5rem;
+`;
+
+export const Styles = { Icon, Container, Loading, Input };
