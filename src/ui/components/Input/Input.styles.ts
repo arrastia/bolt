@@ -5,6 +5,7 @@ import { shake } from 'ui/styles/animations/shake';
 const Input = styled('input')<{ isInvalid?: boolean }>`
   font-size: 1rem;
   opacity: 0.8;
+  background-color: transparent;
   outline: none;
   border: none;
   color: #545d68;

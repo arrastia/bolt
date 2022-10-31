@@ -14,6 +14,7 @@ const Button = styled('button')<{ appearance?: ButtonAppearance }>`
   justify-content: space-around;
   margin: 0;
   opacity: 0.85;
+  box-shadow: rgb(0 0 0 / 20%) 0px 1px 35px 1px;
   overflow: visible;
   padding: 0.65rem;
   position: relative;
@@ -65,11 +66,10 @@ const Button = styled('button')<{ appearance?: ButtonAppearance }>`
     }
   }
 
-  &.glass {
-    background-color: rgb(255 255 255 / 31%);
-    box-shadow: 0 10px 70px 1px rgba(0, 0, 0, 0.56);
+  &.secondary {
     backdrop-filter: saturate(180%) blur(20px);
-    border: none;
+    background-color: rgb(255 255 255 / 31%);
+    /* border: 2px solid #34d186; */
   }
 `;
 

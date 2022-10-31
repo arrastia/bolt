@@ -11,10 +11,11 @@ import { Sticker } from 'ui/components/Sticker';
 export const Form = () => {
   return (
     <Styles.Form>
+      <Styles.Title>Become a bolt driver</Styles.Title>
       <Input icon={<Sticker data={mailbox} size={35} />} placeholder="Email" />
-      <Input icon={<Sticker data={phone} size={35} />} placeholder="Phone" />
-      <Input icon={<Sticker data={compass} size={35} />} placeholder="City" />
+      {/* <Input icon={<Sticker data={phone} size={35} />} placeholder="Phone" /> */}
       <InputPhone />
+      <Input icon={<Sticker data={compass} size={35} />} placeholder="City" />
       <AgreementCheck />
       <Button onClick={event => event.preventDefault()}>Sign up</Button>
     </Styles.Form>

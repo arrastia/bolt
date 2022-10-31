@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Container = styled('div')`
-  /* height: 100%; */
+  box-shadow: 0 10px 10px -2px rgb(0 0 0 / 20%);
   min-width: 0;
   position: unset;
 `;
