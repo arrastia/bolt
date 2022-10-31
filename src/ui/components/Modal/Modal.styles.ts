@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { zoom } from 'ui/styles/animations/zoom';
 
 import type { AnimationStatus } from './@types/Modal.types';
 
@@ -24,23 +25,55 @@ const Container = styled('div')<{ animationStatus: AnimationStatus }>`
   }
 `;
 
-const Dialog = styled('div')`
-  animation-duration: 400ms !important;
-  animation-fill-mode: both !important;
-  animation-iteration-count: 1 !important;
-  animation-name: keyframe_d37zz3 !important;
-  background: rgb(255, 255, 255) !important;
-  border-top-left-radius: 12px !important;
-  border-top-right-radius: 12px !important;
-  box-shadow: rgba(0, 0, 0, 0.28) 0px 8px 28px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  max-height: 100% !important;
-  max-width: 100vw !important;
-  position: relative !important;
-  width: 100vw !important;
-  -webkit-box-direction: normal !important;
-  -webkit-box-orient: vertical !important;
+const Dialog = styled('div')<{ animationStatus: AnimationStatus }>`
+  backdrop-filter: blur(100px);
+  border-radius: 7px;
+  bottom: 0;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.21), 0 6px 6px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  min-width: 500px;
+  width: fit-content;
+  z-index: 99999;
+  background-color: white;
+  background-color: ${({ theme: { colors } }) => colors.background};
+  backdrop-filter: blur(100px);
+  -webkit-backdrop-filter: blur(100px);
+  padding: 1rem;
+  animation: ${({ animationStatus }) =>
+    css`
+      ${zoom[animationStatus]} both ${animationStatus === 'enter' ? 'cubic-bezier(0.4, 0, 0, 1.5)' : ''}
+    `};
+  animation-duration: 300ms;
+  -webkit-animation-duration: 300ms;
+  position: relative;
+  &:focus {
+    outline: none;
+  }
+  @media screen and (max-width: 945px) {
+    min-width: 300px;
+    padding: 0;
+  }
+`;
+
+const CloseButton = styled('button')`
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 0.5rem;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Header = styled('header')`
@@ -59,4 +92,21 @@ const Header = styled('header')`
   font-weight: 800 !important;
 `;
 
-export const Styles = { Container, Dialog, Header };
+const sizes = css`
+  height: 100%;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 99999 - 1;
+`;
+
+const Mask = styled('div')`
+  ${sizes}
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  position: absolute;
+
+  transition: backdrop-filter 0.3s ease-in-out;
+`;
+
+export const Styles = { CloseButton, Container, Dialog, Header, Mask };

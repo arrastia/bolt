@@ -3,12 +3,12 @@ import { createPortal } from 'react-dom';
 
 import { Styles } from './Modal.styles';
 
-import type { AnimationStatus } from './@types/Modal.types';
+import type { AnimationStatus, ModalProps } from './@types/Modal.types';
 import type { RefObject } from 'react';
 
 const modalsPortal = document.getElementById('modals') as HTMLElement;
 
-export const Modal = ({ children, isVisible }: any) => {
+export const Modal = ({ children, isVisible, onClose }: ModalProps) => {
   const [animationStatus, setAnimationStatus] = useState<AnimationStatus>('leave');
   const [isDialogMounted, setIsDialogMounted] = useState(false);
 
@@ -29,8 +29,10 @@ export const Modal = ({ children, isVisible }: any) => {
 
   const renderModal = () => (
     <Styles.Container animationStatus={animationStatus} onAnimationEnd={onAnimationEnd} ref={modalRef} tabIndex={-1}>
-      <Styles.Dialog aria-modal={true} role="dialog" style={{ position: 'relative' }}>
-        <Styles.Header>Hey</Styles.Header>
+      <Styles.Mask onClick={onClose} />
+      <Styles.Dialog animationStatus={animationStatus} aria-modal={true} role="dialog">
+        <Styles.CloseButton onClick={onClose}>X</Styles.CloseButton>
+        {children}
       </Styles.Dialog>
     </Styles.Container>
   );
