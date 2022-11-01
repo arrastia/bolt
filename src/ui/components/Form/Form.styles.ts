@@ -18,6 +18,7 @@ const Form = styled('form')`
     border-radius: 10px;
     min-width: 400px;
     margin: auto;
+    height: fit-content;
   }
 `;
 

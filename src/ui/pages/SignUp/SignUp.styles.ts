@@ -11,10 +11,10 @@ const Section = styled('div')`
     margin: auto 2rem;
     width: 100%;
 
-    h1 {
+    /* h1 {
       font-size: clamp(1.5rem, 6vw, 3.5rem);
       font-weight: bold;
-    }
+    } */
 
     h2 {
       font-size: clamp(0.8rem, 3vw, 1.25rem);

@@ -26,9 +26,7 @@ export const SignUp = () => {
         <div className="content-flex">
           <Title />
           <h2>Set your schedule and earn extra money by driving!</h2>
-
           <ToDos />
-
           <div className="action-buttons">
             <Button>Get started</Button>
             <LearnMore />

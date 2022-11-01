@@ -9,17 +9,22 @@ import { Header } from 'ui/components/Header';
 import { Places } from 'ui/components/Places';
 import { Sidebar } from 'ui/components/Sidebar';
 
+import { useBreakpoints } from 'ui/hooks/useBreakpoints';
+
 export const Layout = () => {
+  const { breakpoint } = useBreakpoints();
+
   return (
     <Styles.Layout id="layout-id">
       <Header />
-      <Divider />
-      <ErrorBoundary fallback={<div>ERROR Loading cities</div>}>
-        <Suspense fallback={<div>LOADING</div>}>
-          <Places />
-        </Suspense>
-      </ErrorBoundary>
-      <Divider />
+      {breakpoint === 'xs' && (
+        <ErrorBoundary fallback={<div>ERROR Loading cities</div>}>
+          <Suspense fallback={<div>LOADING</div>}>
+            <Places />
+          </Suspense>
+        </ErrorBoundary>
+      )}
+      {breakpoint !== 'xs' && <Divider />}
       <Styles.Main>
         <Sidebar />
         <Outlet />

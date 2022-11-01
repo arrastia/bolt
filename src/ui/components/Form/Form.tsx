@@ -1,23 +1,37 @@
+import { useState } from 'react';
+
 import { Styles } from './Form.styles';
 
-import { compass, mailbox, phone } from 'assets/stickers';
+import { mailbox } from 'assets/stickers';
 
 import { AgreementCheck } from 'ui/components/AgreementCheck';
 import { Button } from 'ui/components/Button';
+import { CountrySelect } from './components/CountrySelect';
 import { Input } from 'ui/components/Input';
 import { InputPhone } from 'ui/components/InputPhone';
 import { Sticker } from 'ui/components/Sticker';
 
+import type { ButtonStatus } from '../Button/@types/Button.types';
+
 export const Form = () => {
+  const [buttonStatus, setButtonStatus] = useState<ButtonStatus>();
+
   return (
     <Styles.Form>
       <Styles.Title>Become a bolt driver</Styles.Title>
       <Input icon={<Sticker data={mailbox} size={35} />} placeholder="Email" />
-      {/* <Input icon={<Sticker data={phone} size={35} />} placeholder="Phone" /> */}
       <InputPhone />
-      <Input icon={<Sticker data={compass} size={35} />} placeholder="City" />
+      {/* <Input icon={<Sticker data={compass} size={35} />} placeholder="City" /> */}
+      <CountrySelect />
       <AgreementCheck />
-      <Button onClick={event => event.preventDefault()}>Sign up</Button>
+      <Button
+        status={buttonStatus}
+        onClick={event => {
+          event.preventDefault();
+          setButtonStatus('error');
+        }}>
+        Sign up
+      </Button>
     </Styles.Form>
   );
 };

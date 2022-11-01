@@ -15,7 +15,7 @@ const Sidebar = styled('aside')<{ isMenuVisible: boolean }>`
   position: relative;
   transition: left 300ms ease-in-out;
 
-  @media screen and (max-width: 945px) {
+  @media screen and (max-width: 1280px) {
     background-color: ${({ theme: { colors } }) => colors.backgroundFallback};
     box-shadow: 0 10px 70px 1px rgba(0, 0, 0, 0.56);
     height: 100%;
