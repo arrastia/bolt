@@ -5,13 +5,13 @@ import { Styles } from './InputPhone.styles';
 import { phone } from 'assets/stickers';
 
 import { Input } from 'ui/components/Input';
+import { Menu } from 'ui/components/Menu';
 import { NativeSelect } from 'ui/components/NativeSelect';
 import { Sticker } from 'ui/components/Sticker';
 
 import type { ChangeEvent } from 'react';
 import type { CountryCode } from 'core/entities/Country';
 import type { InputProps } from 'ui/components/Input';
-import { Menu } from '../Menu';
 
 interface InputPhoneProps extends InputProps {}
 
@@ -45,7 +45,7 @@ export const InputPhone = ({ ...rest }: InputPhoneProps) => {
     <div style={{ position: 'relative' }}>
       <Input icon={renderIcon()} onClick={toggleMenu} placeholder="Phone number" ref={phoneInput} {...rest} />
       <Menu
-        isVisible={isPanelVisible}
+        isOpen={isPanelVisible}
         options={[
           { label: 'Russia', value: '+7', id: 'russia' },
           { label: 'USA', value: '+1', id: 'usa' }

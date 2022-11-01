@@ -1,1 +1,1 @@
-export { latitudeState, longitudeState } from './MapStore';
+export { citiesState, isSelectedState, latitudeState, longitudeState, selectedCityState } from './MapStore';
