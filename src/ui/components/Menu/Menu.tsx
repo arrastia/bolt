@@ -1,31 +1,25 @@
-import React from 'react';
-import { MenuContainer, MenuItem, MenuList } from './Menu.styles';
+import { useRef } from 'react';
 
-interface Option {
-  id: string;
-  label: string;
-  value: string;
-}
+import { Styles } from './Menu.styles';
 
-interface MenuProps {
-  isVisible: boolean;
-  onClick?: () => void;
-  onSelect?: (option: Option) => void;
-  options: Option[];
-}
+import { MenuList } from './components/MenuList';
 
-export const Menu = ({ isVisible, onClick, onSelect, options }: MenuProps) => {
-  const renderMenu = () => (
-    <MenuContainer>
-      <MenuList onClick={onClick}>
-        {options.map(({ id, label, value }) => (
-          <MenuItem key={id} onClick={() => onSelect?.({ id, label, value })}>
-            {label}
-          </MenuItem>
-        ))}
-      </MenuList>
-    </MenuContainer>
+import { useMenuPositioner } from './hooks/useMenuPositioner';
+
+import type { MenuProps } from './@types/Menu.types';
+
+const menuItemSize = 35;
+
+const isArrayWithLength = <T,>(value: T): boolean => Array.isArray(value) && !!value.length;
+
+export const Menu = ({ isOpen, onMenuMouseDown, options }: MenuProps) => {
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  const menuHeight = useMenuPositioner({ menuItemSize, isOpen, menuOptionsLength: options.length, menuRef });
+
+  return (
+    <Styles.MenuWrapper hideNoOptionsMsg={isOpen && !isArrayWithLength(options)} isOpen={isOpen} onMouseDown={onMenuMouseDown} ref={menuRef}>
+      <MenuList height={menuHeight} isLoading={false} options={options} width={400} />
+    </Styles.MenuWrapper>
   );
-
-  return isVisible ? renderMenu() : null;
 };

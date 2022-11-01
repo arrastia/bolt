@@ -1,4 +1,24 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { fadeIn } from 'ui/styles/animations/fadeIn';
+
+const MenuWrapper = styled('div')<{ isOpen: boolean; hideNoOptionsMsg: boolean }>`
+  cursor: default;
+  position: absolute;
+  z-index: 9999999999999999999999999;
+
+  ${({ hideNoOptionsMsg, isOpen, theme: { colors } }) => css`
+    animation: ${fadeIn} 0.2s ease-in;
+    background-color: ${colors.backgroundFallback};
+    border-radius: 3px;
+    box-shadow: ${hideNoOptionsMsg ? 'none' : '0 0.5em 1em -0.125em rgb(10 10 10 / 12%), 0 0 0 1px rgb(10 10 10 / 4%)'};
+    margin: 0.35rem 0;
+    padding: 0;
+    width: 100%;
+    ${!isOpen && 'display: none;'}
+  `}
+`;
+
+export const Styles = { MenuWrapper };
 
 export const MenuContainer = styled.div`
   align-items: center;
@@ -36,5 +56,3 @@ export const MenuItem = styled.li`
   padding: 10px 0;
   width: 100%;
 `;
-
-export const Styles = {};
