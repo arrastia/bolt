@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { shake } from 'ui/styles/animations/shake';
 
 import type { ButtonAppearance } from './@types/Button.types';
 
@@ -59,6 +60,7 @@ const Button = styled('button')<{ appearance?: ButtonAppearance }>`
   &.primary {
     background: #34d186;
     color: white;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 
     &:hover {
       opacity: 1;
@@ -70,6 +72,16 @@ const Button = styled('button')<{ appearance?: ButtonAppearance }>`
     backdrop-filter: saturate(180%) blur(20px);
     background-color: rgb(255 255 255 / 31%);
     /* border: 2px solid #34d186; */
+  }
+
+  &.error {
+    animation: ${shake} 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    backface-visibility: hidden;
+    background: ${({ theme: { colors } }) => colors.red};
+    border-color: ${({ theme: { colors } }) => colors.red};
+    color: #fff;
+    transform: translate3d(0, 0, 0);
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
   }
 `;
 
