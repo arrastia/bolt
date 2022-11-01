@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { shake } from 'ui/styles/animations/shake';
 
-const Input = styled('input')<{ isInvalid?: boolean }>`
+const Input = styled('input')`
   font-size: 1rem;
   opacity: 0.8;
   background-color: transparent;
@@ -45,8 +45,10 @@ const Container = styled('div')`
   &.error {
     animation: ${shake} 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
     backface-visibility: hidden;
+    border: 1px solid #34d186;
     border-color: #ff5c5c;
-    color: #ff5c5c;
+    box-shadow: 0 0 0 0.2rem rgb(255, 92, 92, 0.25);
+    color: rgb(255, 92, 92, 0.25);
     transform: translate3d(0, 0, 0);
   }
 `;
