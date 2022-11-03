@@ -3,9 +3,9 @@ import styled from 'styled-components';
 const Title = styled('h1')`
   --red: #34d186;
   /* --green: #636e7b;
-  --yellow: #aeaeb1; */
-  --green: #545d68;
-  --yellow: #545d68;
+  --yellow: #aeaeb1; 
+  --green: #545d68; 
+  --yellow: #545d68;*/
   --speed: 0.65s;
 
   align-items: flex-start;
@@ -40,12 +40,12 @@ const Title = styled('h1')`
   }
 
   span:nth-of-type(1) {
-    --color: var(--green);
+    --color: ${({ theme: { colors } }) => colors.text};
     --index: 0;
   }
 
   span:nth-of-type(2) {
-    --color: var(--yellow);
+    --color: ${({ theme: { colors } }) => colors.text};
     --index: 1;
   }
 

@@ -42,7 +42,7 @@ export const AgreementCheck = () => {
           </Styles.Icon>
 
           <Styles.Text onClick={event => event.preventDefault()}>
-            I agree Bolt's <Link>Terms of Service</Link> and <Link>Privacy Policy.</Link>
+            I agree <Link>Terms of Service</Link> and <Link>Privacy Policy.</Link>
           </Styles.Text>
         </Styles.ToDo>
       </Styles.ToDoList>

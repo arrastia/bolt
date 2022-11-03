@@ -81,7 +81,7 @@ const Circle = styled('use')`
 `;
 
 const Text = styled('div')`
-  color: #545d68;
+  color: ${({ theme: { colors } }) => colors.text};
   transition: all 0.4s linear 0.4s;
   font-weight: bold;
 `;

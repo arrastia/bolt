@@ -9,14 +9,18 @@ import { routes } from 'configuration/routes';
 import { Layout } from 'ui/components/Layout';
 import { Map } from 'ui/components/Map';
 
-import { theme } from 'ui/styles/themes';
+import { darkTheme, lightTheme } from 'ui/styles/themes';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from 'ui/stores/UserStore';
 
 const NotFound = lazy(() => import('ui/pages/NotFound'));
 const SignUp = lazy(() => import('ui/pages/SignUp'));
 
 export function App() {
+  const isDarkMode = useRecoilValue(isDarkModeState);
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <GlobalStyles />
       <Map />
       <BrowserRouter>

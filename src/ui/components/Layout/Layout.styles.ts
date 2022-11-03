@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Layout = styled('main')`
-  background: rgb(255 255 255 / 31%);
+  background: ${({ theme: { colors } }) => colors.glass};
   backdrop-filter: saturate(180%) blur(20px);
   height: 100%;
   padding-left: env(safe-area-inset-left);

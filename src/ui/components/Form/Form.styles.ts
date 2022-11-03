@@ -11,14 +11,13 @@ const Form = styled('form')`
   padding: 16px;
 
   @media (min-width: 768px) {
-    background: ${({ theme: { colors } }) => colors.background};
-    background: rgb(255 255 255 / 31%);
     backdrop-filter: saturate(180%) blur(20px);
-    box-shadow: rgb(0 0 0 / 20%) 0px 1px 35px 1px;
+    background: ${({ theme: { colors } }) => colors.background};
     border-radius: 10px;
-    min-width: 400px;
-    margin: auto;
+    box-shadow: rgb(0 0 0 / 20%) 0px 1px 35px 1px;
     height: fit-content;
+    margin: auto;
+    min-width: 400px;
   }
 `;
 

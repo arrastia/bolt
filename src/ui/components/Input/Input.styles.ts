@@ -8,7 +8,7 @@ const Input = styled('input')`
   background-color: transparent;
   outline: none;
   border: none;
-  color: #545d68;
+  color: ${({ theme: { colors } }) => colors.text};
   min-height: 38px;
   flex: 1;
 
@@ -29,7 +29,7 @@ const Container = styled('div')`
   gap: 1rem;
 
   background-color: transparent;
-  border-color: #ced4da;
+  border-color: ${({ theme: { colors } }) => colors.borderDefault};
   border-radius: 3px;
   border-style: solid;
   border-width: 1px;
@@ -61,7 +61,7 @@ const Loading = styled('div')`
 
 const Icon = styled('div')`
   background-color: transparent;
-  border-color: #ced4da;
+  border-color: ${({ theme: { colors } }) => colors.borderDefault};
   border-radius: 3px;
   border-style: solid;
   border-width: 1px;
