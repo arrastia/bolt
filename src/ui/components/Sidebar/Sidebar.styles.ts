@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Sidebar = styled('aside')<{ isMenuVisible: boolean }>`
-  border-right: 1px solid #dbdbe0;
+  border-right: 1px solid;
   border-color: ${({ theme: { colors } }) => colors.divider};
   box-shadow: 0 0 0 1px 'rgba(0, 0, 0, 0.1)';
   display: flex;
@@ -15,6 +15,12 @@ const Sidebar = styled('aside')<{ isMenuVisible: boolean }>`
   position: relative;
   transition: left 300ms ease-in-out;
 
+  -webkit-scrollbar-width: none;
+  -moz-scrollbar-width: none;
+  -ms-scrollbar-width: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+
   @media screen and (max-width: 1280px) {
     background-color: ${({ theme: { colors } }) => colors.backgroundFallback};
     box-shadow: 0 10px 70px 1px rgba(0, 0, 0, 0.56);
@@ -22,6 +28,10 @@ const Sidebar = styled('aside')<{ isMenuVisible: boolean }>`
     left: ${({ isMenuVisible }) => (isMenuVisible ? '0' : '-300px')};
     position: absolute;
     z-index: 999999;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;
 

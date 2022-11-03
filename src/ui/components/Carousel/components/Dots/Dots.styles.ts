@@ -20,12 +20,12 @@ const Circle = styled('li')`
 `;
 
 const Dot = styled(Circle)`
-  background-color: #aeaeb1;
+  background-color: ${({ theme }) => theme.colors.backgroundAccent};
   cursor: pointer;
 `;
 
 const Indicator = styled(Circle)<{ activeIndex: number }>`
-  background-color: #000;
+  background-color: ${({ theme: { colors } }) => colors.backgroundContrast};
   left: ${({ activeIndex }) => `${activeIndex * (CIRCLE_SIZE * 2)}px`};
   position: absolute;
   transition: all 300ms ease-in-out;
@@ -55,7 +55,7 @@ const Component = styled('div')`
   width: fit-content;
 
   &:hover {
-    background-color: #f4f4f5;
+    background-color: ${({ theme: { colors } }) => colors.backgroundHover};
     transition: background-color 300ms ease-out;
   }
 `;
