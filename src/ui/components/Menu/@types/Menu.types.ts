@@ -1,9 +1,11 @@
-import type { MouseEvent, ReactNode, TouchEvent } from 'react';
+import type { MouseEvent, ReactNode, RefObject, TouchEvent } from 'react';
 
+export type LabelCallback = (data: MenuOption) => string;
 export type MenuOptionStatus = 'selected' | 'disabled' | 'hidden' | 'idle';
 export type MouseOrTouchEvent<T = Element> = MouseEvent<T> | TouchEvent<T>;
 
 export interface MenuOption {
+  icon?: ReactNode;
   id: string;
   index?: number;
   label: string;
@@ -12,8 +14,11 @@ export interface MenuOption {
 }
 
 export interface MenuProps {
+  appendTo?: RefObject<HTMLElement>;
+  getOptionLabel?: LabelCallback;
   isOpen: boolean;
   onMenuMouseDown?: (event: MouseOrTouchEvent<HTMLDivElement>) => void;
+  onSelect?: (option: MenuOption) => void;
   options: MenuOption[];
 }
 

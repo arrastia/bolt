@@ -1,14 +1,10 @@
 import styled from 'styled-components';
 
 const Option = styled('li')`
-  display: block;
-  overflow: hidden;
+  display: flex;
+  gap: 0.5rem;
   padding: 0.375rem 0.75rem;
-  text-align: left;
-  text-overflow: ellipsis;
-  user-select: none;
-  white-space: nowrap;
-  will-change: top;
+  position: relative;
   -webkit-tap-highlight-color: transparent;
 
   &.focused,
@@ -18,7 +14,7 @@ const Option = styled('li')`
 
   &.selected {
     background-color: ${({ theme: { colors } }) => colors.darkGreen};
-    color: ${({ theme: { colors } }) => colors.text};
+    color: ${({ theme: { colors } }) => colors.white};
   }
 
   &.disabled {
@@ -26,4 +22,18 @@ const Option = styled('li')`
   }
 `;
 
-export const Styles = { Option };
+const Icon = styled('span')`
+  min-width: 50px;
+  text-align: right;
+`;
+
+const Text = styled('span')`
+  display: block;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  will-change: top;
+`;
+
+export const Styles = { Option, Icon, Text };
