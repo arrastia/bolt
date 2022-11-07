@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 import { Styles } from './Select.styles';
 
@@ -6,11 +6,11 @@ import { compass } from 'assets/stickers';
 
 import { IndicatorIcons } from './components/IndicatorIcons';
 import { Input } from 'ui/components/Input';
-import { Menu } from 'ui/components/Menu';
+import { Menu, MenuOption, MenuProps } from 'ui/components/Menu';
 import { Sticker } from 'ui/components/Sticker';
 import { Value } from './components/Value';
 
-import type { FocusedOption, SelectedOption, SelectProps } from './@types/Select.types';
+import type { FocusedOption, OptionLabelCallback, SelectedOption, SelectProps } from './@types/Select.types';
 import type { FormEvent, KeyboardEvent, SyntheticEvent } from 'react';
 import type { MouseOrTouchEvent } from 'ui/components/Menu';
 
@@ -24,6 +24,8 @@ const OPTION_INDEX = { UP: 0, DOWN: 1, LAST: 2, FIRST: 3 } as const;
 export const Select = ({ getOptionLabel, getOptionValue, onOptionChange, options = [], status }: SelectProps) => {
   const [isDisabled, isInvalid, isLoading] = [status === 'disabled', status === 'error', status === 'pending'];
 
+  const getOptionLabelFn = useMemo<OptionLabelCallback>(() => getOptionLabel || (({ label }) => label), [getOptionLabel]);
+
   const [focusedOption, setFocusedOption] = useState<FocusedOption>({ index: -1 });
   const [inputValue, setInputValue] = useState<string>('');
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -33,6 +35,7 @@ export const Select = ({ getOptionLabel, getOptionValue, onOptionChange, options
   const controlRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   //   const listRef = useRef<FixedSizeList | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
   const menuOpenRef = useRef<boolean>(false);
   const prevMenuOptionsLength = useRef<number>();
 
@@ -97,6 +100,21 @@ export const Select = ({ getOptionLabel, getOptionValue, onOptionChange, options
     setIsMenuOpen(true);
   }, []);
 
+  const handleSelect = useCallback(
+    (option: MenuOption) => {
+      setSelectedOption(option);
+      onOptionChange?.(option);
+
+      if (IS_TOUCH_DEVICE) {
+        blurInput();
+      } else {
+        setInputValue('');
+        setIsMenuOpen(false);
+      }
+    },
+    [onOptionChange]
+  );
+
   const handleOnControlMouseDown = (event: MouseOrTouchEvent<HTMLElement>) => {
     if (isDisabled) return;
     if (!isFocused) focusInput();
@@ -112,7 +130,7 @@ export const Select = ({ getOptionLabel, getOptionValue, onOptionChange, options
   };
 
   return (
-    <Styles.SelectWrapper aria-expanded={isMenuOpen} onKeyDown={handleOnKeyDown}>
+    <Styles.SelectWrapper aria-expanded={isMenuOpen} onKeyDown={handleOnKeyDown} ref={menuRef}>
       <Styles.ValueWrapper
         // isFocused={isFocused}
         // isInvalid={isInvalid}
@@ -141,11 +159,11 @@ export const Select = ({ getOptionLabel, getOptionValue, onOptionChange, options
           ref={inputRef}
           required={!Boolean(selectedOption)}
           status={status}
-          value={inputValue}
+          value={inputValue ? inputValue : selectedOption?.label}
         />
       </Styles.ValueWrapper>
 
-      <Menu isOpen={isMenuOpen} options={options} />
+      <Menu appendTo={menuRef} isOpen={isMenuOpen} onSelect={handleSelect} options={options} />
     </Styles.SelectWrapper>
   );
 };
