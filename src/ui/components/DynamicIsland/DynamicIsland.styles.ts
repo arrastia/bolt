@@ -3,37 +3,81 @@ import styled, { css } from 'styled-components';
 import { Flex } from 'ui/styles/components/Flex';
 import { Text } from 'ui/styles/components/Text';
 
-const Island = styled('div')<{ status: 'idle' | 'expanded' }>`
+const Island = styled('div')`
   align-items: stretch;
   background: ${({ theme }) => theme.colors.backgroundFallback};
-  border-radius: 1000px;
+  /* border-radius: 1000px; */
   border: 0.5px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   color: black;
   display: flex;
-  min-height: 56px;
+  /* min-height: 56px; */
   flex-direction: column;
-  min-width: 285px;
-  transform: translate3d(0, 0, 0);
-  height: 100%;
+
+  margin: auto;
+  align-self: center;
+
+  /* transform: translate3d(0, 0, 0); */
   color: ${({ theme }) => theme.colors.text};
-  transition: box-shadow 0.2s ease, color 0.2s ease, transform 0.2s, height 2s ease;
+  /* transition: box-shadow 0.2s ease, color 0.2s ease, transform 0.2s, height 2s ease; */
+  /* transition: border-radius 2s ease;
+  will-change: box-shadow, color, transform, height; */
+  will-change: border-radius, box-shadow, color, transform, height;
+  transition: border-radius 2s ease, box-shadow 0.2s ease, color 0.2s ease, transform 0.2s, height 2s ease;
 
-  /* position: fixed; */
+  &.idle {
+    animation: collapse 10s ease-out;
+    border-radius: 1000px;
+    height: 56px;
+    width: 285px;
+  }
 
-  ${({ status }) =>
-    status === 'expanded' &&
-    css`
-      border-radius: 25px;
-    `}
+  &.expanded {
+    animation: expand 200ms ease;
+    border-radius: 25px;
+    height: 450px;
+    width: 100%;
+  }
 
   &:hover {
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   }
 
   &:active {
-    transform: scale(0.95);
+    transform: scale(0.99);
     transition: transform 0.2s;
+  }
+
+  @keyframes collapse {
+    0% {
+      border-radius: 25px;
+    }
+    15% {
+      height: 56px;
+      width: 285px;
+    }
+    100% {
+      border-radius: 1000px;
+      height: 56px;
+      width: 285px;
+    }
+  }
+
+  @keyframes expand {
+    0% {
+      height: 56px;
+      width: 285px;
+      border-radius: 25px;
+    }
+    90% {
+      height: 450px;
+      width: 100%;
+    }
+    100% {
+      border-radius: 25px;
+      height: 450px;
+      width: 100%;
+    }
   }
 `;
 

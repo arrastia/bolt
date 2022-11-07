@@ -34,17 +34,18 @@ const slides = [
 ];
 
 export const DynamicIsland = () => {
-  const [animationStatus, setAnimationStatus] = useState<'idle' | 'expanded'>('expanded');
-  const [isContentVisible, setIsContentVisible] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'expanded'>('idle');
 
-  const handleAnimationEnd = () => (animationStatus === 'idle' ? setIsContentVisible(false) : null);
-
-  const onExpand = () => {
-    setIsContentVisible(true);
-    setAnimationStatus('expanded');
+  const showContent = (event: React.AnimationEvent<HTMLDivElement>) => {
+    if (event.animationName === 'expand') setIsOpen(true);
   };
 
-  const onCollapse = () => setAnimationStatus('idle');
+  const hideContent = (event: React.AnimationEvent<HTMLDivElement>) => {
+    if (event.animationName === 'collapse') setIsOpen(false);
+  };
+
+  const toggleStatus = () => setStatus(prev => (prev === 'idle' ? 'expanded' : 'idle'));
 
   const renderSearch = () => (
     <svg
@@ -65,28 +66,8 @@ export const DynamicIsland = () => {
     </svg>
   );
 
-  const renderSettings = () => (
-    <svg
-      aria-hidden="true"
-      focusable="false"
-      role="presentation"
-      style={{
-        display: 'block',
-        height: '16px',
-        width: '16px',
-        fill: 'rgb(34, 34, 34)'
-      }}
-      viewBox="0 0 16 16"
-      xmlns="http://www.w3.org/2000/svg">
-      <path d="M5 8c1.306 0 2.418.835 2.83 2H14v2H7.829A3.001 3.001 0 1 1 5 8zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6-8a3 3 0 1 1-2.829 4H2V4h6.17A3.001 3.001 0 0 1 11 2zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path>
-    </svg>
-  );
-
   return (
-    <Styles.Island
-      onAnimationEnd={handleAnimationEnd}
-      onClick={() => (animationStatus === 'expanded' ? onCollapse() : onExpand())}
-      status={animationStatus}>
+    <Styles.Island className={status} onAnimationEnd={showContent} onAnimationStart={hideContent} onClick={toggleStatus}>
       <div
         style={{
           display: 'flex',
@@ -118,18 +99,6 @@ export const DynamicIsland = () => {
           </Styles.ActionButton>
         </Styles.ActionButtons>
       </div>
-      {animationStatus === 'expanded' ? (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            flex: 1,
-            padding: '16px',
-            position: 'relative'
-          }}>
-          <Carousel slides={slides} />
-        </div>
-      ) : null}
     </Styles.Island>
   );
 };
