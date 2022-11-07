@@ -10,6 +10,8 @@ const Location = styled('button')`
   text-align: center;
   transition: box-shadow 0.2s ease, color 0.2s ease, transform 0.2s;
 
+  color: ${({ theme }) => theme.colors.text};
+
   &:active {
     transform: scale(0.95);
     transition: transform 0.2s;
@@ -33,7 +35,7 @@ const Icon = styled('img')`
   max-width: 100%;
   width: 24px;
 
-  filter: contrast(1);
+  filter: contrast(0);
   transition: filter 200ms ease, transform 200ms ease;
 `;
 

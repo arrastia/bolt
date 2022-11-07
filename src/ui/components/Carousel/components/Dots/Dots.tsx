@@ -28,7 +28,15 @@ export const Dots = ({ onClick, slides }: DotsProps) => {
       <Styles.OrderedList>
         <Styles.Indicator activeIndex={activeIndex} onTransitionEnd={handleRemoveClassName} ref={indicatorRef} />
         {slides.map(({ id }, index) => (
-          <Styles.Dot key={id} onClick={() => onChangeActiveIndex(index)} />
+          <Styles.Dot
+            key={id}
+            onClick={event => {
+              event.preventDefault();
+              event.stopPropagation();
+
+              onChangeActiveIndex(index);
+            }}
+          />
         ))}
       </Styles.OrderedList>
     </Styles.Component>

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Container = styled('div')`
-  height: 100%;
+  height: 150px;
   min-width: 0;
   position: unset;
 `;
@@ -45,6 +45,8 @@ const Grid = styled('div')`
   padding-inline-start: 32px;
   -webkit-padding-end: 32px;
   padding-inline-end: 32px;
+
+  padding-top: 70px;
 
   &::-webkit-scrollbar {
     display: none;

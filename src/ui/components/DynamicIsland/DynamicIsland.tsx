@@ -9,6 +9,7 @@ import { Carousel } from 'ui/components/Carousel';
 import { Sticker } from 'ui/components/Sticker';
 
 import type { CSSProperties } from 'react';
+import { ThemeButton } from '../ThemeButton';
 
 const slides = [
   {
@@ -33,7 +34,7 @@ const slides = [
 ];
 
 export const DynamicIsland = () => {
-  const [animationStatus, setAnimationStatus] = useState<'idle' | 'expanded'>('idle');
+  const [animationStatus, setAnimationStatus] = useState<'idle' | 'expanded'>('expanded');
   const [isContentVisible, setIsContentVisible] = useState(false);
 
   const handleAnimationEnd = () => (animationStatus === 'idle' ? setIsContentVisible(false) : null);
@@ -101,9 +102,9 @@ export const DynamicIsland = () => {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                width: '100%',
+                minWidth: 0,
                 paddingLeft: '2px',
-                minWidth: 0
+                width: '100%'
               }}>
               <Styles.Title>Why Bolt?</Styles.Title>
               <Styles.Subtitle>Learn more about us!</Styles.Subtitle>
@@ -111,10 +112,10 @@ export const DynamicIsland = () => {
           </Styles.Button>
         </Styles.Content>
         <Styles.ActionButtons>
-          <Styles.ActionButton style={{ margin: 0 }}>
-            <img alt="" src={menu} style={{ height: 16, width: 16 }} />
+          {/* <Styles.ActionButton style={{ margin: 0 }}>{renderSettings()}</Styles.ActionButton> */}
+          <Styles.ActionButton>
+            <ThemeButton />
           </Styles.ActionButton>
-          <Styles.ActionButton>{renderSettings()}</Styles.ActionButton>
         </Styles.ActionButtons>
       </div>
       {animationStatus === 'expanded' ? (

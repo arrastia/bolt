@@ -5,7 +5,7 @@ import type { DividerProps } from './@types/Divider.types';
 const Divider = styled('hr')<DividerProps>`
   background-color: ${({ theme: { colors } }) => colors.divider};
   border: none;
-  height: ${({ direction }) => (direction === 'horizontal' ? '1px' : '100%')};
+  height: ${({ direction }) => (direction === 'horizontal' ? '1px' : 'auto')};
   width: ${({ direction }) => (direction === 'horizontal' ? '100%' : '1px')};
 `;
 

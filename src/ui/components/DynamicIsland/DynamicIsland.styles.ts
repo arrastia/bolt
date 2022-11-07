@@ -5,7 +5,7 @@ import { Text } from 'ui/styles/components/Text';
 
 const Island = styled('div')<{ status: 'idle' | 'expanded' }>`
   align-items: stretch;
-  background: white;
+  background: ${({ theme }) => theme.colors.backgroundFallback};
   border-radius: 1000px;
   border: 0.5px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
@@ -16,12 +16,25 @@ const Island = styled('div')<{ status: 'idle' | 'expanded' }>`
   min-width: 285px;
   transform: translate3d(0, 0, 0);
   height: 100%;
+  color: ${({ theme }) => theme.colors.text};
+  transition: box-shadow 0.2s ease, color 0.2s ease, transform 0.2s, height 2s ease;
+
+  /* position: fixed; */
 
   ${({ status }) =>
     status === 'expanded' &&
     css`
       border-radius: 25px;
     `}
+
+  &:hover {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: scale(0.95);
+    transition: transform 0.2s;
+  }
 `;
 
 const Content = styled(Flex)`
@@ -66,7 +79,8 @@ const ActionButton = styled('button')`
   height: 36px;
   justify-content: center;
   width: 36px;
-  border: 1px solid #dddddd;
+  /* border: 1px solid #dddddd; */
+  border: none;
   border-radius: 25px;
   margin: 0 10px;
   transition: transform 0.1s ease-in-out;
