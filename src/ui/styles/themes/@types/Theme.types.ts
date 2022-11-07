@@ -9,6 +9,7 @@ export interface ThemeColors {
   borderDefault: string;
   divider: string;
   glass: string;
+  icon: string;
   text: string;
   textBright: string;
 }

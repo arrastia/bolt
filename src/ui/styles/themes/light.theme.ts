@@ -14,6 +14,7 @@ export const light = {
     glass: 'rgb(255 255 255 / 31%)',
     text: '#545d68',
     textBright: '#636e7b',
+    icon: `contrast(1)`,
     ...colors
   }
 };

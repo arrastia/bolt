@@ -14,6 +14,7 @@ export const dark = {
     glass: 'rgb(46, 51, 59, 70%)',
     text: '#cdd9e5',
     textBright: '#fff',
+    icon: `contrast(0)`,
     ...colors
   }
 };
