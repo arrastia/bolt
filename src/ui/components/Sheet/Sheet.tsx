@@ -145,6 +145,6 @@ export const Sheet = forwardRef(
       </SheetContext.Provider>
     );
 
-    return createPortal(breakpoint === 'xs' ? renderSheet() : null, document.body);
+    return createPortal(breakpoint === 'xs' ? renderSheet() : null, sheetsPortal);
   }
 );

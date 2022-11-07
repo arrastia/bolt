@@ -7,7 +7,11 @@ import { isDarkModeState } from 'ui/stores/UserStore';
 export const ThemeButton = () => {
   const [isDarkMode, setIsDarkMode] = useRecoilState(isDarkModeState);
 
-  const onToggleTheme = () => setIsDarkMode(prevTheme => !prevTheme);
+  const onToggleTheme = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setIsDarkMode(prevTheme => !prevTheme);
+  };
 
   return (
     <Styles.ThemeButton onClick={onToggleTheme}>

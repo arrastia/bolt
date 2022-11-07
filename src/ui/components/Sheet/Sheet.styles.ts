@@ -13,7 +13,7 @@ const Backdrop = styled('div')`
 `;
 
 const Container = styled('div')`
-  background-color: #fff;
+  background: ${({ theme: { colors } }) => colors.background};
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   bottom: 0;
