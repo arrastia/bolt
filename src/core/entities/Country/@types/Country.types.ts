@@ -251,3 +251,13 @@ export type CountryCode =
   | 'ZA'
   | 'ZM'
   | 'ZW';
+
+export interface CountryResponse {
+  dialCode: string;
+  hasAreaCodes?: boolean;
+  isAreaCode?: boolean;
+  iso2: CountryCode;
+  name: string;
+  id: string;
+  regions: Region[];
+}

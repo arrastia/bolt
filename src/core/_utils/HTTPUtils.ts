@@ -9,7 +9,7 @@ interface HTTPProps<D = any> {
   url: string;
 }
 
-const authAxios = axios.create({ baseURL: 'https://631625715b85ba9b11f10301.mockapi.io/api/v1' });
+const authAxios = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 
 const get = (options: HTTPProps): AxiosPromise => {
   return authAxios.get(`${options.url}`, { params: options.data, responseType: options.responseType });

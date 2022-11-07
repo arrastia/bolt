@@ -1,17 +1,11 @@
 import { CountryRepository } from 'core/repositories/Country';
 
-import type { Country, Region } from 'core/entities/Country';
+import { Country } from 'core/entities/Country';
 
-export const allCountries = async (regions?: Region | Region[]) => {
-  const countries = await CountryRepository.allCountries();
+export const allCountries = async () => {
+  const response = await CountryRepository.allCountries();
 
-  if (!regions) return countries;
-
-  return getCountriesByRegions(countries, regions);
-};
-
-const getCountriesByRegions = (countries: Country[], regions: Region[] | Region): Country[] => {
-  if (typeof regions === 'string') return countries.filter(country => country.regions.includes(regions));
-
-  return countries.filter(country => regions.map(region => country.regions.includes(region)).some(el => el));
+  return response
+    .map(({ dialCode, iso2, ...rest }) => new Country({ countryCode: iso2, phoneCode: dialCode, ...rest }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 };

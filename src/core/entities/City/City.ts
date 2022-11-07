@@ -1,19 +1,18 @@
 import type { ICountry } from 'core/entities/Country';
 
+export type Coordinates = { latitude: number; longitude: number };
 export interface City {
-  country?: Pick<ICountry, 'iso2' | 'name'>;
+  coordinates: Coordinates;
+  country: ICountry;
   id: string;
-  latitude: number;
-  longitude: number;
   name: string;
 }
 
 export class City {
-  constructor({ country, id, latitude, longitude, name }: City) {
+  constructor({ coordinates, country, id, name }: City) {
+    this.coordinates = coordinates;
     this.country = country;
     this.id = id;
-    this.latitude = latitude;
-    this.longitude = longitude;
     this.name = name;
   }
 }
