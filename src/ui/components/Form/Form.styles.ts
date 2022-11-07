@@ -9,6 +9,7 @@ const Form = styled('form')`
   overflow: auto;
   padding-top: 0px;
   padding: 16px;
+  background: ${({ theme: { colors } }) => colors.background};
 
   @media (min-width: 768px) {
     backdrop-filter: saturate(180%) blur(20px);

@@ -13,8 +13,7 @@ import { MAP_DARK_THEME, MAP_LIGHT_THEME } from 'ui/styles/themes/map';
 import type { Map } from 'mapbox-gl';
 import type { RefObject } from 'react';
 
-// mapBox.accessToken = process.env.REACT_APP_MAP_API_KEY as string;
-mapBox.accessToken = 'pk.eyJ1IjoiYXJyYXN0aWEiLCJhIjoiY2w3c3gxNm1iMGxudDN2b3Y5ODE1ZHBiZSJ9.7fmDsE_wSf46MPYxWun9Og';
+mapBox.accessToken = process.env.REACT_APP_MAP_API_KEY as string;
 
 const MAP_ZOOM = 9;
 

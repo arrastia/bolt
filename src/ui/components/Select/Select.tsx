@@ -32,6 +32,8 @@ export const Select = ({ getOptionLabel, getOptionValue, onOptionChange, options
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<SelectedOption | null>(null);
 
+  console.log('selectedOption :>> ', selectedOption);
+
   const controlRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   //   const listRef = useRef<FixedSizeList | null>(null);
@@ -83,7 +85,74 @@ export const Select = ({ getOptionLabel, getOptionValue, onOptionChange, options
     [handleOnMouseDownEvent]
   );
 
-  const handleOnKeyDown = (event: KeyboardEvent<HTMLElement>) => {};
+  const handleSpaceBar = () => {
+    if (inputValue) return;
+
+    if (!isMenuOpen) {
+      openMenuAndFocusOption(OPTION_INDEX.FIRST);
+    } else if (!focusedOption.data) {
+      return;
+    } else {
+      selectOptionFromFocused();
+    }
+  };
+
+  const handleOnKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (isDisabled) return;
+
+    const { key, shiftKey } = event;
+
+    switch (key) {
+      case 'ArrowDown':
+        isMenuOpen ? focusOptionOnArrowKey(OPTION_INDEX.DOWN) : openMenuAndFocusOption(OPTION_INDEX.FIRST);
+        break;
+
+      case 'ArrowUp':
+        isMenuOpen ? focusOptionOnArrowKey(OPTION_INDEX.UP) : openMenuAndFocusOption(OPTION_INDEX.LAST);
+        break;
+
+      case 'ArrowLeft':
+      case 'ArrowRight':
+        if (inputValue) return;
+        break;
+
+      case ' ':
+        handleSpaceBar();
+        break;
+
+      case 'Enter':
+        if (isMenuOpen) {
+          selectOptionFromFocused();
+        }
+        break;
+
+      case 'Escape':
+        if (isMenuOpen) {
+          setIsMenuOpen(false);
+          setInputValue('');
+        }
+        break;
+
+      case 'Tab':
+        if (!isMenuOpen || !focusedOption.data || shiftKey) return;
+
+        selectOptionFromFocused();
+        break;
+
+      case 'Delete':
+      case 'Backspace':
+        if (inputValue) return;
+
+        if (!Boolean(selectedOption)) break;
+
+        setSelectedOption(null);
+
+        break;
+
+      default:
+        break;
+    }
+  };
 
   const handleOnInputBlur = useCallback(() => {
     setIsFocused(false);
@@ -102,7 +171,8 @@ export const Select = ({ getOptionLabel, getOptionValue, onOptionChange, options
 
   const handleSelect = useCallback(
     (option: MenuOption) => {
-      setSelectedOption(option);
+      console.log('option handleSelect :>> ', option);
+      setSelectedOption({ data: option });
       onOptionChange?.(option);
 
       if (IS_TOUCH_DEVICE) {
@@ -129,6 +199,27 @@ export const Select = ({ getOptionLabel, getOptionValue, onOptionChange, options
     if (isNotInput) event.preventDefault();
   };
 
+  const getIndex = (direction: OptionIndex) => {
+    if (direction === OPTION_INDEX.DOWN) return (focusedOption.index + 1) % options.length;
+
+    return focusedOption.index > 0 ? focusedOption.index - 1 : options.length - 1;
+  };
+
+  const focusOptionOnArrowKey = (direction: OptionIndex) => {
+    if (!isArrayWithLength(options)) return;
+
+    const index = getIndex(direction);
+
+    // scrollToItemIndex(index);
+    setFocusedOption({ index, ...options[index] });
+  };
+
+  const selectOptionFromFocused = () => {
+    const { data } = focusedOption;
+
+    if (data) handleSelect(data);
+  };
+
   return (
     <Styles.SelectWrapper aria-expanded={isMenuOpen} onKeyDown={handleOnKeyDown} ref={menuRef}>
       <Styles.ValueWrapper
@@ -151,7 +242,7 @@ export const Select = ({ getOptionLabel, getOptionValue, onOptionChange, options
             />
           }
           icon={<Sticker data={compass} size={35} />}
-          onBlur={handleOnInputBlur}
+          // onBlur={handleOnInputBlur}
           onChange={handleOnInputChange}
           onFocus={handleOnInputFocus}
           placeholder="Select option.."
@@ -159,7 +250,7 @@ export const Select = ({ getOptionLabel, getOptionValue, onOptionChange, options
           ref={inputRef}
           required={!Boolean(selectedOption)}
           status={status}
-          value={inputValue ? inputValue : selectedOption?.label}
+          value={inputValue ? inputValue : selectedOption?.data?.label || ''}
         />
       </Styles.ValueWrapper>
 
