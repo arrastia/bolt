@@ -1,11 +1,5 @@
 import styled from 'styled-components';
 
-const Container = styled('div')`
-  height: 150px;
-  min-width: 0;
-  position: unset;
-`;
-
 const Grid = styled('div')`
   /* contain: var(--contentscroller_contain);
   contain-intrinsic-size: var(--contentscroller_contain-intrinsic-size);
@@ -53,4 +47,4 @@ const Grid = styled('div')`
   }
 `;
 
-export const Styles = { Container, Grid };
+export const Styles = { Grid };

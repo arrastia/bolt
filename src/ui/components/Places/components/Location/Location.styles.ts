@@ -35,7 +35,7 @@ const Icon = styled('img')`
   max-width: 100%;
   width: 24px;
 
-  filter: contrast(0);
+  filter: ${({ theme }) => theme.colors.icon};
   transition: filter 200ms ease, transform 200ms ease;
 `;
 
@@ -57,7 +57,7 @@ const TextIndicator = styled('span')<{ isActive: boolean }>`
     inset-inline: 0;
     transition: opacity 0.2s ease;
 
-    background-color: black;
+    background-color: ${({ theme }) => theme.colors.text};
 
     opacity: ${({ isActive }) => (isActive ? 1 : 0)};
   }

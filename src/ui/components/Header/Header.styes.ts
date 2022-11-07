@@ -9,7 +9,7 @@ const ActionButtons = styled('div')`
 const Header = styled('header')`
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
-  padding: 14px 24px 0 24px;
+  padding: 14px 16px 0 16px;
   position: fixed;
   width: 100%;
   z-index: 9999999999;

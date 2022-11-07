@@ -1,0 +1,1 @@
+export { SuspendedPlaces } from './SuspendedPlaces';
