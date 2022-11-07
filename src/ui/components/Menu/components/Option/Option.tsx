@@ -20,7 +20,7 @@ export const Option = memo<OptionProps>(({ icon, id, index, label, onSelect, sta
 
   const renderIcon = () => (
     <Fragment>
-      <Styles.Icon>{icon}</Styles.Icon>
+      {icon}
       <Divider direction="vertical" />
     </Fragment>
   );

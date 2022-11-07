@@ -4,4 +4,9 @@ const FlagWrapper = styled('div')`
   position: relative;
 `;
 
-export const Styles = { FlagWrapper };
+const PhoneCode = styled('span')`
+  min-width: 50px;
+  text-align: right;
+`;
+
+export const Styles = { FlagWrapper, PhoneCode };

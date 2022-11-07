@@ -64,6 +64,8 @@ export const InputPhone = ({ onChange, status, ...rest }: InputPhoneProps) => {
     </Styles.FlagWrapper>
   );
 
+  const renderPhoneCode = (code: string) => <Styles.PhoneCode>{code}</Styles.PhoneCode>;
+
   return (
     <div ref={ref} style={{ position: 'relative' }}>
       <Input
@@ -80,7 +82,7 @@ export const InputPhone = ({ onChange, status, ...rest }: InputPhoneProps) => {
         appendTo={ref}
         isOpen={isPanelVisible}
         onSelect={({ value }) => handleSelect(value as CountryCode)}
-        options={countries.map(({ countryCode, id, name, phoneCode }) => ({ icon: phoneCode, id, label: name, value: countryCode }))}
+        options={countries.map(({ countryCode, id, name, phoneCode }) => ({ icon: renderPhoneCode(phoneCode), id, label: name, value: countryCode }))}
       />
     </div>
   );

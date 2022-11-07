@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 const Option = styled('li')`
+  cursor: pointer;
   display: flex;
   gap: 0.5rem;
-  padding: 0.375rem 0.75rem;
+  padding: 0.5rem 0.75rem;
   position: relative;
   -webkit-tap-highlight-color: transparent;
 
@@ -22,11 +23,6 @@ const Option = styled('li')`
   }
 `;
 
-const Icon = styled('span')`
-  min-width: 50px;
-  text-align: right;
-`;
-
 const Text = styled('span')`
   display: block;
   overflow: hidden;
@@ -36,4 +32,4 @@ const Text = styled('span')`
   will-change: top;
 `;
 
-export const Styles = { Option, Icon, Text };
+export const Styles = { Option, Text };
