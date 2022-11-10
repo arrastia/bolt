@@ -1,27 +1,51 @@
-import { useRecoilValue } from 'recoil';
-import styled from 'styled-components';
+import { useRecoilCallback, useRecoilState, useRecoilValue } from 'recoil';
+
+import { Styles } from './CountrySelect.styles';
 
 import { Select } from 'ui/components/Select';
 
-import { citiesState } from 'ui/stores/MapStore';
+import { citiesState, latitudeState, longitudeState } from 'ui/stores/MapStore';
+import { formFieldState, isAttemptedState } from 'ui/stores/FormStore';
 
-const Icon = styled('img')`
-  aspect-ratio: auto 20 / 20;
-  height: auto;
-  max-width: 100%;
-  width: 20px;
-  transition: transform 0.2s ease-in-out;
-
-  &:hover {
-    transform: scale(1.25);
-    transition: transform 0.2s ease-in-out;
-  }
-`;
+import type { Coordinates } from 'core/entities/City';
+import { useCallback } from 'react';
+import type { MenuOption } from 'ui/components/Menu';
 
 export const CountrySelect = () => {
   const cities = useRecoilValue(citiesState);
 
-  const options = cities.map(({ icon, id, name }) => ({ icon: <Icon alt="" src={icon} />, id, label: name, value: id }));
+  const [city, setCity] = useRecoilState(formFieldState('city'));
+  const [isAttempted, setIsAttempted] = useRecoilState(isAttemptedState);
 
-  return <Select options={options} />;
+  const setLocation = useRecoilCallback(
+    ({ set }) =>
+      ({ latitude, longitude }: Coordinates) => {
+        set(latitudeState, latitude);
+        set(longitudeState, longitude);
+      },
+    []
+  );
+
+  const onOptionChange = useCallback(
+    (option: MenuOption | null) => {
+      if (!option) return;
+
+      const { latitude, longitude } = option.extra;
+
+      setLocation({ latitude, longitude });
+      setCity(option.id);
+      setIsAttempted(false);
+    },
+    [setIsAttempted, setLocation, setCity]
+  );
+
+  const renderIcon = (icon: string) => <Styles.Icon src={icon} />;
+
+  return (
+    <Select
+      onOptionChange={onOptionChange}
+      options={cities.map(({ icon, id, name, coordinates }) => ({ extra: { ...coordinates }, icon: renderIcon(icon), id, label: name, value: id }))}
+      status={isAttempted && city === '' ? 'error' : undefined}
+    />
+  );
 };

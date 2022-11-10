@@ -1,16 +1,19 @@
-import { Styles } from './Form.styles';
+import { ErrorBoundary } from 'react-error-boundary';
+import { useRecoilValue } from 'recoil';
 
-import { mailbox } from 'assets/stickers';
+import { Suspense } from 'react';
+
+import { Styles } from './Form.styles';
 
 import { AgreementCheck } from 'ui/components/AgreementCheck';
 import { Button } from 'ui/components/Button';
 import { CountrySelect } from './components/CountrySelect';
+import { Email } from './components/Email';
 import { Input } from 'ui/components/Input';
-import { InputPhone } from 'ui/components/InputPhone';
-import { Sticker } from 'ui/components/Sticker';
+import { PhoneSelect } from './components/PhoneSelect';
 
 import { useSignUp } from './hooks/useSignUp';
-import { useRecoilValue } from 'recoil';
+
 import { hasErrorsState } from 'ui/stores/FormStore';
 
 export const Form = () => {
@@ -21,9 +24,13 @@ export const Form = () => {
   return (
     <Styles.Form>
       <Styles.Title>Become a bolt driver</Styles.Title>
-      <Input icon={<Sticker data={mailbox} size={35} />} placeholder="Email" />
-      <InputPhone />
-      <CountrySelect />
+      <Email />
+      <PhoneSelect />
+      <ErrorBoundary fallback={<Input placeholder="Error loading input" readOnly={true} status="error" />}>
+        <Suspense fallback={<Input placeholder="Loading..." readOnly={true} status="pending" />}>
+          <CountrySelect />
+        </Suspense>
+      </ErrorBoundary>
       <AgreementCheck />
       <Button onClick={handleSignUp} status={hasErrors ? 'error' : undefined}>
         Sign up
