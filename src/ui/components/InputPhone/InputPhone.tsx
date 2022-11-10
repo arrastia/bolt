@@ -17,7 +17,6 @@ import { useInputPhone } from './hooks/useInputPhone/useInputPhone';
 import type { ChangeEvent } from 'react';
 import type { CountryCode } from 'core/entities/Country';
 import type { InputProps } from 'ui/components/Input';
-import { Divider } from '../Divider';
 
 interface InputPhoneProps extends InputProps {}
 
@@ -35,7 +34,6 @@ export const InputPhone = ({ onChange, status, ...rest }: InputPhoneProps) => {
     if (!isDisabled) togglePanel(!isPanelVisible);
   };
 
-  // const handleChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 

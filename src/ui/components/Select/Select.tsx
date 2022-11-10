@@ -171,7 +171,6 @@ export const Select = ({ getOptionLabel, getOptionValue, onOptionChange, options
 
   const handleSelect = useCallback(
     (option: MenuOption) => {
-      console.log('option handleSelect :>> ', option);
       setSelectedOption({ data: option });
       onOptionChange?.(option);
 

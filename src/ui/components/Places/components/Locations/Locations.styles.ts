@@ -40,8 +40,6 @@ const Grid = styled('div')`
   -webkit-padding-end: 32px;
   padding-inline-end: 32px;
 
-  padding-top: 70px;
-
   &::-webkit-scrollbar {
     display: none;
   }
