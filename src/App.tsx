@@ -6,6 +6,7 @@ import { GlobalStyles } from './Global.styles';
 
 import { routes } from 'configuration/routes';
 
+import { Fallback } from 'ui/components/Fallback';
 import { Layout } from 'ui/components/Layout';
 import { Map } from 'ui/components/Map';
 
@@ -23,28 +24,16 @@ export function App() {
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <GlobalStyles />
       <Map />
-      <BrowserRouter>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route
-              element={
-                <Suspense fallback={<div>LOADING SignUp</div>}>
-                  <SignUp />
-                </Suspense>
-              }
-              index={true}
-            />
-            <Route
-              element={
-                <Suspense fallback={<div>LOADING NotFound</div>}>
-                  <NotFound />
-                </Suspense>
-              }
-              path={routes.NOT_FOUND}
-            />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <Suspense fallback={<Fallback />}>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route element={<SignUp />} index={true} />
+              <Route element={<NotFound />} path={routes.NOT_FOUND} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </Suspense>
     </ThemeProvider>
   );
 }
