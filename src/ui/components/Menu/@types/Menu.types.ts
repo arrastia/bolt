@@ -5,6 +5,7 @@ export type MenuOptionStatus = 'selected' | 'disabled' | 'hidden' | 'idle';
 export type MouseOrTouchEvent<T = Element> = MouseEvent<T> | TouchEvent<T>;
 
 export interface MenuOption {
+  extra?: any;
   icon?: ReactNode;
   id: string;
   index?: number;
