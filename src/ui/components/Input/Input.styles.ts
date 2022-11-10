@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { Spinner } from 'ui/components/Spinner';
+
 import { shake } from 'ui/styles/animations/shake';
 
 const Input = styled('input')`
@@ -53,7 +55,7 @@ const Container = styled('div')`
   }
 `;
 
-const Loading = styled('div')`
+const Loading = styled(Spinner)`
   position: absolute;
   right: 2rem;
   top: 50%;

@@ -1,11 +1,20 @@
 import { Styles } from './Spinner.styles';
 
-const DOTS = [1, 2, 3];
+import type { ComponentPropsWithoutRef } from 'react';
 
-export const Spinner = () => (
-  <Styles.Spinner>
-    {DOTS.map(dot => (
-      <Styles.Dot key={dot} style={{ animationDelay: `${dot * 0.07}s` }} />
-    ))}
+export const Spinner = ({ ...props }: ComponentPropsWithoutRef<'div'>) => (
+  <Styles.Spinner {...props}>
+    <i></i>
+    <i></i>
+    <i></i>
+    <i></i>
+    <i></i>
+    <i></i>
+    <i></i>
+    <i></i>
+    <i></i>
+    <i></i>
+    <i></i>
+    <i></i>
   </Styles.Spinner>
 );
