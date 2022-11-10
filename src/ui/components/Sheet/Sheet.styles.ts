@@ -64,11 +64,21 @@ const Wrapper = styled('div')`
   z-index: 1;
 `;
 
+const HeaderContent = styled('div')`
+  box-shadow: 0 1px 0 rgba(46, 59, 66, calc(1 * 0.125));
+  cursor: ns-resize;
+  flex-shrink: 0;
+  padding: 1rem;
+  padding-top: 0;
+  text-align: center;
+`;
+
 export const Styles = {
   Backdrop: animated(Backdrop),
   Container: animated(Container),
   Content: animated(Content),
   Header,
+  HeaderContent,
   HeaderWrapper: animated(HeaderWrapper),
   Indicator: animated(Indicator),
   Wrapper

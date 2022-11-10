@@ -129,9 +129,15 @@ export const Sheet = forwardRef(
       y
     };
 
+    const renderHeader = () => {
+      if (header) return header;
+
+      return <Styles.HeaderContent>Become a Bolt driver.</Styles.HeaderContent>;
+    };
+
     const renderContent = () => (
       <SheetContainer>
-        <SheetHeader>{header}</SheetHeader>
+        <SheetHeader>{renderHeader()}</SheetHeader>
         <SheetContent isDragDisabled={true}>{children}</SheetContent>
       </SheetContainer>
     );
