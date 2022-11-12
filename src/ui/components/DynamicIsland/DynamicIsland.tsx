@@ -10,6 +10,7 @@ import { Sticker } from 'ui/components/Sticker';
 
 import type { CSSProperties } from 'react';
 import { ThemeButton } from '../ThemeButton';
+import { miniLogo } from 'assets/images';
 
 const slides = [
   {
@@ -78,7 +79,9 @@ export const DynamicIsland = () => {
         }}>
         <Styles.Content>
           <Styles.Button>
-            <Styles.Search>{renderSearch()}</Styles.Search>
+            <Styles.Search>
+              <Styles.MiniLogo src={miniLogo} />
+            </Styles.Search>
             <div
               style={{
                 display: 'flex',
@@ -93,12 +96,23 @@ export const DynamicIsland = () => {
           </Styles.Button>
         </Styles.Content>
         <Styles.ActionButtons>
-          {/* <Styles.ActionButton style={{ margin: 0 }}>{renderSettings()}</Styles.ActionButton> */}
           <Styles.ActionButton>
             <ThemeButton />
           </Styles.ActionButton>
         </Styles.ActionButtons>
       </div>
+      {isOpen ? (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            padding: '16px',
+            position: 'relative'
+          }}>
+          <Carousel slides={slides} />
+        </div>
+      ) : null}
     </Styles.Island>
   );
 };

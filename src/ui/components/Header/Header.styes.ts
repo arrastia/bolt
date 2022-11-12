@@ -18,6 +18,7 @@ const Header = styled('header')`
     align-items: center;
     display: flex;
     justify-content: space-between;
+    position: relative;
     padding: 14px 24px 14px 24px;
     width: 100%;
   }

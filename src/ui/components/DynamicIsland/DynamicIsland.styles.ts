@@ -23,10 +23,10 @@ const Island = styled('div')`
   /* transition: border-radius 2s ease;
   will-change: box-shadow, color, transform, height; */
   will-change: border-radius, box-shadow, color, transform, height;
-  transition: border-radius 2s ease, box-shadow 0.2s ease, color 0.2s ease, transform 0.2s, height 2s ease;
+  /* transition: border-radius 2s ease, box-shadow 0.2s ease, color 0.2s ease, transform 0.2s, height 2s ease; */
 
   &.idle {
-    animation: collapse 10s ease-out;
+    animation: collapse 200ms ease-out;
     border-radius: 1000px;
     height: 56px;
     width: 285px;
@@ -180,6 +180,10 @@ const Button = styled('div')`
   width: 100%;
 `;
 
+const MiniLogo = styled('img')`
+  width: 16px;
+`;
+
 export const Styles = {
   ActionButton,
   Content,
@@ -188,5 +192,6 @@ export const Styles = {
   Title,
   Subtitle,
   Search,
-  Button
+  Button,
+  MiniLogo
 };
